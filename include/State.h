@@ -9,7 +9,7 @@
 #ifndef STATE
 	class State {
 	private:
-		Sprite bg;
+		//Sprite bg;
 		Music music;
 		bool quitRequested;
 

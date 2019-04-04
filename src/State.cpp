@@ -2,7 +2,7 @@
 
 State::State() {
 	quitRequested = false;
-    bg.Open("assets/img/ocean.jpg");
+    //bg.Open("assets/img/ocean.jpg");
     music.Open("assets/audio/stageState.ogg");
 	music.Play(-1);
 }
@@ -18,7 +18,7 @@ void State::Update(float dt) {
 }
 
 void State::Render() {
-	bg.Render(0, 0);
+
 }
 
 bool State::QuitRequested() {
