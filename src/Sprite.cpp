@@ -85,5 +85,5 @@ void Sprite::Update(float dt){
 }
 
 bool Sprite::Is(std::string type) {
-	return !strcmp(type, "Sprite");
+	return !strcmp(type.c_str(), "Sprite");
 }

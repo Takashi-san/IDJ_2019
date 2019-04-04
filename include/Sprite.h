@@ -2,6 +2,7 @@
 #define INCLUDE_SDL_IMAGE
 #include "SDL_include.h"
 #include "Component.h"
+#include "GameObject.h"
 #include <string>
 #include <iostream>
 #include <stdbool.h>

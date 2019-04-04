@@ -1,7 +1,10 @@
 #include <string>
+#include <iostream>
 #include <stdbool.h>
 
 #ifndef COMPONENT
+	class GameObject;
+
 	class Component {
 	protected:
 		GameObject& associated;
@@ -16,4 +19,5 @@
 
 	};
 	#define COMPONENT
+	#include "GameObject.h"
 #endif
