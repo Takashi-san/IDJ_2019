@@ -1,11 +1,11 @@
 #include "Sprite.h"
 #include "Game.h"
 
-Sprite::Sprite() {
+Sprite::Sprite(GameObject& associated) : Component(associated){
 	texture = nullptr;
 }
 
-Sprite::Sprite(std::string file) {
+Sprite::Sprite(std::string file, GameObject& associated) : Component(associated){
 	texture = nullptr;
 	Open(file);
 }
@@ -39,6 +39,10 @@ void Sprite::Open(std::string file) {
 
 	// clip da imagem.
 	SetClip(0, 0, width, height);
+
+	// seta altura e largura no gameobject.
+	associated.box.w = width;
+	associated.box.h = height;
 }
 
 void Sprite::SetClip(int x, int y, int w, int h) {
@@ -48,12 +52,12 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 	clipRect.h = h;
 }
 
-void Sprite::Render(int x, int y) {
+void Sprite::Render() {
 	Game& instance = Game::GetInstance();
 
 	SDL_Rect dst;
-	dst.x = x;
-	dst.y = y;
+	dst.x = associated.box.x;
+	dst.y = associated.box.y;
 	dst.w = clipRect.w;
 	dst.h = clipRect.h;
 
@@ -74,4 +78,12 @@ bool Sprite::IsOpen() {
 	} else {
 		return false;
 	}
+}
+
+void Sprite::Update(float dt){
+
+}
+
+bool Sprite::Is(std::string type) {
+	return !strcmp(type, "Sprite");
 }
