@@ -5,9 +5,6 @@ GameObject::GameObject() {
 }
 
 GameObject::~GameObject() {
-	for (unsigned int i = components.size(); i != 0; i--){
-		delete components[i-1];
-	}
 	components.clear();
 }
 
@@ -32,12 +29,12 @@ void GameObject::RequestDelete() {
 }
 
 void GameObject::AddComponent(Component* cpt) {
-	components.push_back(cpt);
+	components.emplace_back(cpt);
 }
 
 void GameObject::RemoveComponent(Component* cpt) {
 	for (unsigned int i = 0; i < components.size(); i++){
-		if (components[i] == cpt) {
+		if (components[i].get() == cpt) {
 			components.erase(components.begin() + i);
 			break;
 		}
@@ -47,7 +44,7 @@ void GameObject::RemoveComponent(Component* cpt) {
 Component* GameObject::GetComponent(std::string type) {
 	for (unsigned int i = 0; i < components.size(); i++){
 		if (components[i]->Is(type)) {
-			return components[i];
+			return components[i].get();
 		}
 	}
 	return nullptr;

@@ -2,13 +2,14 @@
 #include <iostream>
 #include <vector>
 #include <stdbool.h>
+#include <memory>
 
 #ifndef GAMEOBJ
 	class Component;
 
 	class GameObject {
 	private:
-		std::vector<Component*> components;
+		std::vector<std::unique_ptr<Component>> components;
 		bool isDead;
 
 	public:

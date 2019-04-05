@@ -17,7 +17,7 @@
 
 	public:
 		Sprite(GameObject&);
-		Sprite(std::string, GameObject&);
+		Sprite(GameObject&, std::string);
 		~Sprite();
 		void Open(std::string);
 		void SetClip(int, int, int, int);
