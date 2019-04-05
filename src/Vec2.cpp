@@ -7,7 +7,7 @@ Vec2::Vec2(int x, int y) {
 
 void Vec2::Rotate(float rad){
 	// A referência é angulo positivo = rotação antihorária.
-	int xn = x*cos(rad) - y*sin(rad);
+	int xn = x*cos(rad) + y*sin(rad);
 	int yn = y*cos(rad) + x*sin(rad);
 
 	x = xn;
@@ -16,7 +16,6 @@ void Vec2::Rotate(float rad){
 
 Vec2 Vec2::GetRotated(float rad){
 	this->Rotate(rad);
-
 	return *this;
 }
 

@@ -13,8 +13,6 @@ void Sound::Play(int times) {
 		// Mix_PlayChannel(canal, Mix_Chunk*, loops)
 		if (times > 0) {
 			channel = Mix_PlayChannel(-1, chunk, times-1);
-		} else {
-			channel = Mix_PlayChannel(-1, chunk, 0);
 		}
 	} else {
 		// Nenhum som carregado.
@@ -54,7 +52,7 @@ Sound::~Sound() {
 }
 
 void Sound::Update(float dt) {
-
+	
 }
 
 void Sound::Render() {
