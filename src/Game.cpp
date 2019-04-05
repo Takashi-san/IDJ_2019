@@ -101,9 +101,7 @@ void Game::Run() {
 	while (!state->QuitRequested()) {
 		
 		state->Update(0);
-		std::cout << "Flag31 --------------------.\n";
 		state->Render();
-		std::cout << "Flag32 --------------------.\n";
 		SDL_RenderPresent(renderer);
 		SDL_Delay(33);
 	}

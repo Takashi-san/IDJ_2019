@@ -2,18 +2,13 @@
 
 State::State() {
 	quitRequested = false;
-    
-	objectArray.clear();
 
-    
-    GameObject go;
-    
-    Sprite *sp = new Sprite(go, "assets/img/ocean.jpg");
-	go.box.w = 0;
-	go.box.h = 0;
-	go.AddComponent(sp);
-	
-	objectArray.emplace_back(&go);
+	std::unique_ptr<GameObject> go = std::unique_ptr<GameObject>(new GameObject());
+	Sprite *sp = new Sprite(*go, "assets/img/ocean.jpg");
+	go->box.w = 0;
+	go->box.h = 0;
+	go->AddComponent(sp);
+	objectArray.emplace_back(std::move(go));
 	
 	music.Open("assets/audio/stageState.ogg");
 	music.Play(-1);
@@ -28,19 +23,12 @@ void State::LoadAssets() {
 }
 
 void State::Update(float dt) {
-	/* State::Input() está cuidando disso.
-	if (SDL_QuitRequested()) {
-		quitRequested = true;
-	}
-	*/
-
 	Input();
-	std::cout << "Flagkk --------------------." << objectArray.size() << "\n";
+	
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
-		std::cout << "Flag36 --------------------.\n";
 		objectArray[i]->Update(dt);
 	}
-	std::cout << "Flag35 --------------------.\n";
+	
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
 		if (objectArray[i]->IsDead()) {
 			objectArray.erase(objectArray.begin() + i);
@@ -59,22 +47,20 @@ bool State::QuitRequested() {
 }
 
 void State::AddObject(int mouseX, int mouseY) {
-	/*
-	GameObject go;
+	std::unique_ptr<GameObject> go = std::unique_ptr<GameObject>(new GameObject());
+    
+	Sprite *sp = new Sprite(*go, "assets/img/penguinface.png");
+	go->box.x = mouseX - sp->GetWidth()/2;
+	go->box.y = mouseY - sp->GetHeight()/2;
+	go->AddComponent(sp);
 
-	Sprite *sp = new Sprite(go, "assets/img/penguinface.png");
-	go.box.w = mouseX - sp->GetWidth()/2;
-	go.box.h = mouseX - sp->GetHeight()/2;
-	go.AddComponent(sp);
+	Sound *sd = new Sound(*go, "assets/audio/boom.wav");
+	go->AddComponent(sd);
 
-	Sound *sd = new Sound(go, "assets/audio/boom.wav");
-	go.AddComponent(sd);
+	Face *fc = new Face(*go);
+	go->AddComponent(fc);
 
-	Face *fc = new Face(go);
-	go.AddComponent(fc);
-
-	objectArray.emplace_back(&go);
-	*/
+	objectArray.emplace_back(std::move(go));
 }
 
 // Método fornecido no moodle.
