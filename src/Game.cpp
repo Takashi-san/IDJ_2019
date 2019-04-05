@@ -100,7 +100,6 @@ Game::~Game() {
 void Game::Run() {
 	while (!state->QuitRequested()) {
 		
-		std::cout << "Flag3 --------------------.\n";
 		state->Update(0);
 		std::cout << "Flag31 --------------------.\n";
 		state->Render();

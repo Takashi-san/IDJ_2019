@@ -3,13 +3,18 @@
 State::State() {
 	quitRequested = false;
     
+	objectArray.clear();
+
+    
     GameObject go;
+    
     Sprite *sp = new Sprite(go, "assets/img/ocean.jpg");
 	go.box.w = 0;
 	go.box.h = 0;
 	go.AddComponent(sp);
+	
 	objectArray.emplace_back(&go);
-
+	
 	music.Open("assets/audio/stageState.ogg");
 	music.Play(-1);
 }
@@ -30,7 +35,7 @@ void State::Update(float dt) {
 	*/
 
 	Input();
-	std::cout << "Flag34 --------------------.\n";
+	std::cout << "Flagkk --------------------." << objectArray.size() << "\n";
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
 		std::cout << "Flag36 --------------------.\n";
 		objectArray[i]->Update(dt);
@@ -54,6 +59,7 @@ bool State::QuitRequested() {
 }
 
 void State::AddObject(int mouseX, int mouseY) {
+	/*
 	GameObject go;
 
 	Sprite *sp = new Sprite(go, "assets/img/penguinface.png");
@@ -68,6 +74,7 @@ void State::AddObject(int mouseX, int mouseY) {
 	go.AddComponent(fc);
 
 	objectArray.emplace_back(&go);
+	*/
 }
 
 // Método fornecido no moodle.

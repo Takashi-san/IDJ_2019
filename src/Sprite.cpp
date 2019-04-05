@@ -81,7 +81,7 @@ bool Sprite::IsOpen() {
 }
 
 void Sprite::Update(float dt){
-
+	
 }
 
 bool Sprite::Is(std::string type) {
