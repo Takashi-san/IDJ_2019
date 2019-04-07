@@ -9,7 +9,7 @@
 
 	class GameObject {
 	private:
-		std::vector<std::unique_ptr<Component>> components;
+		std::vector<std::shared_ptr<Component>> components;
 		bool isDead;
 
 	public:

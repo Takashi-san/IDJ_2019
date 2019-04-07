@@ -19,7 +19,7 @@
 		//Sprite bg;
 		Music music;
 		bool quitRequested;
-		std::vector<std::unique_ptr<GameObject>> objectArray;
+		std::vector<std::shared_ptr<GameObject>> objectArray;
 
 		void Input();
 		void AddObject(int, int);
