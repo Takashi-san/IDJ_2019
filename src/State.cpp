@@ -5,18 +5,18 @@ State::State() {
 
 	// Background
 	std::shared_ptr<GameObject> go = std::shared_ptr<GameObject>(new GameObject());
+	go->box.x = 0;
+	go->box.y = 0;
 	Sprite *sp = new Sprite(*go, "assets/img/ocean.jpg");
-	go->box.w = 0;
-	go->box.h = 0;
 	go->AddComponent(sp);
 	objectArray.emplace_back(std::move(go));
 	
 	// TileMap
 	std::shared_ptr<GameObject> gomp = std::shared_ptr<GameObject>(new GameObject());
+	gomp->box.x = 0;
+	gomp->box.y = 0;
 	TileSet *tlst = new TileSet(*gomp, 64, 64, "assets/img/tileset.png");
 	TileMap *tlmp = new TileMap(*gomp, "assets/map/tileMap.txt", tlst);
-	gomp->box.w = 0;
-	gomp->box.h = 0;
 	gomp->AddComponent(tlmp);
 	objectArray.emplace_back(std::move(gomp));
 
