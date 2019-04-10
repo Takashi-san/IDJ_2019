@@ -8,7 +8,7 @@ Sound::Sound(GameObject& associated, std::string file) : Sound(associated){
 	Open(file);
 }
 
-void Sound::Play(int times) {
+void Sound::Play(int times = 1) {
 	if (chunk != nullptr){
 		// Mix_PlayChannel(canal, Mix_Chunk*, loops)
 		if (times > 0) {

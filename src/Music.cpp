@@ -10,7 +10,7 @@ Music::Music(std::string file) {
 	Open(file);
 }
 
-void Music::Play(int times) {
+void Music::Play(int times = -1) {
 	if (music != nullptr){
 		Mix_PlayMusic(music, times);
 	} else {
@@ -19,7 +19,7 @@ void Music::Play(int times) {
 	}
 }
 
-void Music::Stop(int msToStop) {
+void Music::Stop(int msToStop = 1500) {
 	Mix_FadeOutMusic(msToStop);
 }
 
