@@ -103,7 +103,7 @@ void State::Input() {
 				// Esse código, assim como a classe Face, é provisório. Futuramente, para
 				// chamar funções de GameObjects, use objectArray[i]->função() direto.
 
-				//if(go->box.Contains( {(float)mouseX, (float)mouseY} ) ) {
+				if(go->box.Within(mouseX, mouseY)) {
 					Face* face = (Face*)go->GetComponent("Face");
 					if ( nullptr != face ) {
 						// Aplica dano
@@ -111,7 +111,7 @@ void State::Input() {
 						// Sai do loop (só queremos acertar um)
 						break;
 					}
-				//}
+				}
 			}
 		}
 		if( event.type == SDL_KEYDOWN ) {
