@@ -1,5 +1,6 @@
 #include "Sprite.h"
 #include "Game.h"
+#include "Resources.h"
 
 Sprite::Sprite(GameObject& associated) : Component(associated){
 	texture = nullptr;
@@ -12,21 +13,24 @@ Sprite::Sprite(GameObject& associated, std::string file) : Component(associated)
 
 Sprite::~Sprite() {
 	// desaloca imagem se tiver.
+	/* Resources cuida disso agora.
 	if (texture != nullptr) {
 		SDL_DestroyTexture(texture);
 	}
+	*/
 }
 
 void Sprite::Open(std::string file) {
-	Game& instance = Game::GetInstance();
-
 	// checa texture esta vazio.
+	/* Resources cuida disso agora.
 	if (texture != nullptr) {
 		SDL_DestroyTexture(texture);
 	}
+	*/
 
 	// carrega textura
-	texture = IMG_LoadTexture(instance.GetRenderer(), file.c_str());
+	texture = Resources::GetImage(file.c_str());
+	//texture = IMG_LoadTexture(instance.GetRenderer(), file.c_str());
 	if (texture == nullptr) {
 		// falha em carregar imagem.
 		std::cout << "Falha em carregar textura: " << file.c_str() << "\n";
