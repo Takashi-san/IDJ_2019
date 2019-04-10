@@ -5,14 +5,14 @@
 #include "GameObject.h"
 
 #ifndef TILESET
-	class Tileset{
+	class TileSet{
 	private:
 		Sprite tileSet;
 		int rows, columns;
 		int tileWidth, tileHeight;
 
 	public:
-		Tileset(GameObject&, int, int, std::string);
+		TileSet(GameObject&, int, int, std::string);
 		void RenderTile(unsigned int, int, int);
 		int GetTileWidth();
 		int GetTileHeight();
