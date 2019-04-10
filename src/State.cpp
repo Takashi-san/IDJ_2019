@@ -3,6 +3,7 @@
 State::State() {
 	quitRequested = false;
 
+	// Background
 	std::shared_ptr<GameObject> go = std::shared_ptr<GameObject>(new GameObject());
 	Sprite *sp = new Sprite(*go, "assets/img/ocean.jpg");
 	go->box.w = 0;
@@ -10,6 +11,16 @@ State::State() {
 	go->AddComponent(sp);
 	objectArray.emplace_back(std::move(go));
 	
+	// TileMap
+	std::shared_ptr<GameObject> gomp = std::shared_ptr<GameObject>(new GameObject());
+	TileSet *tlst = new TileSet(*gomp, 64, 64, "assets/img/tileset.png");
+	TileMap *tlmp = new TileMap(*gomp, "assets/map/tileMap.txt", tlst);
+	gomp->box.w = 0;
+	gomp->box.h = 0;
+	gomp->AddComponent(tlmp);
+	objectArray.emplace_back(std::move(gomp));
+
+	// BGM
 	music.Open("assets/audio/stageState.ogg");
 	music.Play(-1);
 }

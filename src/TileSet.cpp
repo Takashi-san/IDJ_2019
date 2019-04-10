@@ -18,8 +18,6 @@ void TileSet::RenderTile(unsigned int index, int x, int y) {
 	if (index < (unsigned int)rows*columns) {
 		tileSet.SetClip((index%columns)*tileWidth, (index/columns)*tileHeight, tileWidth, tileHeight);
 		tileSet.Render(x, y);
-	} else {
-		std::cout << "Index de tileset inválido: " << index << "\n";	
 	}
 }
 

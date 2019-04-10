@@ -5,6 +5,8 @@
 #include "Face.h"
 #include "Music.h"
 #include "Vec2.h"
+#include "TileSet.h"
+#include "TileMap.h"
 #include <string>
 #include <iostream>
 #include <stdbool.h>
