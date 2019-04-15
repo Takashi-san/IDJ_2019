@@ -7,6 +7,9 @@ Game* Game::instance;
 Game::Game(std::string title, int width, int height) {
 	int i;
 
+	dt = 0;
+	frameStart = SDL_GetTicks();
+
 	// Verifica se ja existe um objeto da classe.
 	if (instance != nullptr){
 		// Erro na lógica do programa.
@@ -103,8 +106,9 @@ void Game::Run() {
 	InputManager& input = InputManager::GetInstance();
 
 	while (!state->QuitRequested()) {
+		CalculateDeltaTime();
 		input.Update();
-		state->Update(0);
+		state->Update(dt);
 		state->Render();
 		SDL_RenderPresent(renderer);
 		SDL_Delay(33);
@@ -114,3 +118,11 @@ void Game::Run() {
 	Resources::ClearMusics();
 }
 
+void Game::CalculateDeltaTime() {
+	dt = (float)(SDL_GetTicks() - frameStart)/1000;
+	frameStart = SDL_GetTicks();
+}
+
+float Game::GetDeltaTime() {
+	return dt;
+}
