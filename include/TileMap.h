@@ -12,6 +12,7 @@
 		std::vector<int> tileMatrix;
 		TileSet* tileSet;
 		int mapWidth, mapHeight, mapDepth;
+		float parallax;
 
 	public:
 		TileMap(GameObject&, std::string, TileSet*);
@@ -24,6 +25,7 @@
 		int GetWidth();
 		int GetHeight();
 		int GetDepth();
+		void SetParallax(float);
 
 		void Update(float dt);
 		bool Is(std::string type);

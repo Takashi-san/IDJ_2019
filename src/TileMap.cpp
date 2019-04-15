@@ -3,6 +3,7 @@
 
 TileMap::TileMap(GameObject& associated, std::string file, TileSet* tileSet): Component(associated) {
 	this->tileSet = tileSet;
+	this->parallax = 0;
 	Load(file);
 }
 
@@ -55,7 +56,7 @@ void TileMap::RenderLayer(int layer, int cameraX=0, int cameraY=0) {
 
 void TileMap::Render(){
 	for(int i = 0; i < mapDepth; i++){
-		RenderLayer(i, Camera::pos.x, Camera::pos.y);
+		RenderLayer(i, Camera::pos.x + (int)Camera::pos.x*parallax*i, Camera::pos.y + (int)Camera::pos.y*parallax*i);
 	}
 }
 
@@ -69,6 +70,10 @@ int TileMap::GetHeight() {
 
 int TileMap::GetDepth() {
 	return mapDepth;
+}
+
+void TileMap::SetParallax(float parallax) {
+	this->parallax = parallax;
 }
 
 void TileMap::Update(float dt) {
