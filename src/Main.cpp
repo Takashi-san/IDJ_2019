@@ -1,9 +1,9 @@
 #include "Game.h"
 
 int main(int argc, char** argv) {
-	Game& g = Game::GetInstance();
+	Game& game = Game::GetInstance();
 	
-	g.Run();
+	game.Run();
 
 	return 0;
 }

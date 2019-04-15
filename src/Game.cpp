@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Resources.h"
+#include "InputManager.h"
 
 Game* Game::instance;
 
@@ -99,8 +100,10 @@ Game::~Game() {
 }
 
 void Game::Run() {
+	InputManager& input = InputManager::GetInstance();
+
 	while (!state->QuitRequested()) {
-		
+		input.Update();
 		state->Update(0);
 		state->Render();
 		SDL_RenderPresent(renderer);

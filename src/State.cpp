@@ -1,4 +1,5 @@
 #include "State.h"
+#include "InputManager.h"
 
 State::State() {
 	quitRequested = false;
@@ -34,7 +35,18 @@ void State::LoadAssets() {
 }
 
 void State::Update(float dt) {
-	Input();
+	InputManager& input = InputManager::GetInstance();
+
+	if (input.QuitRequested() || input.KeyPress(ESCAPE_KEY)) {
+		quitRequested = true;
+	}
+
+	if (input.KeyPress(SPACE_KEY)) {
+		Vec2 objPos = Vec2(200, 0);
+		objPos.Rotate(-M_PI + M_PI*(rand() % 1001)/500.0);
+		objPos = objPos + Vec2(input.GetMouseX(), input.GetMouseY());
+		AddObject((int)objPos.x, (int)objPos.y);
+	}
 	
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
 		objectArray[i]->Update(dt);
@@ -74,6 +86,7 @@ void State::AddObject(int mouseX, int mouseY) {
 	objectArray.emplace_back(std::move(go));
 }
 
+/*
 // Método fornecido no moodle.
 void State::Input() {
 	SDL_Event event;
@@ -130,3 +143,4 @@ void State::Input() {
 	}
 }
 
+*/
