@@ -8,6 +8,8 @@
 #ifndef CAMERA
 	#define CAMERA
 
+	#define SPEEDC 200
+
 	class Camera {
 	private:
 		static GameObject* focus;

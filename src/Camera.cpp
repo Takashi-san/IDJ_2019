@@ -22,17 +22,17 @@ void Camera::Update(float dt) {
 		InputManager& input = InputManager::GetInstance();
 
 		if (input.IsKeyDown(RIGHT_ARROW_KEY)) {
-			speed.x = 150;
+			speed.x = SPEEDC;
 		} else if (input.IsKeyDown(LEFT_ARROW_KEY)) {
-			speed.x = -150;
+			speed.x = -SPEEDC;
 		} else {
 			speed.x = 0;
 		}
 
 		if (input.IsKeyDown(UP_ARROW_KEY)) {
-			speed.y = -150;
+			speed.y = -SPEEDC;
 		} else if (input.IsKeyDown(DOWN_ARROW_KEY)) {
-			speed.y = 150;
+			speed.y = SPEEDC;
 		} else {
 			speed.y = 0;
 		}

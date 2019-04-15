@@ -1,6 +1,7 @@
 #include "State.h"
 #include "InputManager.h"
 #include "Camera.h"
+#include "CameraFollower.h"
 
 State::State() {
 	quitRequested = false;
@@ -10,7 +11,9 @@ State::State() {
 	go->box.x = 0;
 	go->box.y = 0;
 	Sprite *sp = new Sprite(*go, "assets/img/ocean.jpg");
+	CameraFollower *cmfl = new CameraFollower(*go);
 	go->AddComponent(sp);
+	go->AddComponent(cmfl);
 	objectArray.emplace_back(std::move(go));
 	
 	// TileMap
