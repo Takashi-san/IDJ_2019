@@ -76,8 +76,8 @@ void State::AddObject(int mouseX, int mouseY) {
 	std::shared_ptr<GameObject> go = std::shared_ptr<GameObject>(new GameObject());
     
 	Sprite *sp = new Sprite(*go, "assets/img/penguinface.png");
-	go->box.x = mouseX - sp->GetWidth()/2;
-	go->box.y = mouseY - sp->GetHeight()/2;
+	go->box.x = mouseX - sp->GetWidth()/2 + Camera::pos.x;
+	go->box.y = mouseY - sp->GetHeight()/2 + Camera::pos.y;
 	go->AddComponent(sp);
 
 	Sound *sd = new Sound(*go, "assets/audio/boom.wav");
