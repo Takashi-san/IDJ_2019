@@ -3,11 +3,14 @@
 #include "SDL_include.h"
 #include "GameObject.h"
 #include "Component.h"
+
 #include <string>
 #include <iostream>
 #include <stdbool.h>
 
 #ifndef FACE
+	#define FACE	
+
 	class Face : public Component{
 	private:
 		int hitpoints;
@@ -21,5 +24,4 @@
 		void Render();
 		bool Is(std::string);
 	};	
-	#define FACE	
 #endif

@@ -1,11 +1,14 @@
 #define INCLUDE_SDL
 #define INCLUDE_SDL_MIXER
 #include "SDL_include.h"
+
 #include <string>
 #include <iostream>
 #include <stdbool.h>
 
 #ifndef MUSIC
+	#define MUSIC
+
 	class Music {
 	private:
 		Mix_Music* music;
@@ -20,5 +23,4 @@
 		bool IsOpen();
 	};
 
-	#define MUSIC
 #endif

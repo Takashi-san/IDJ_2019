@@ -1,5 +1,6 @@
 #define INCLUDE_SDL
 #include "SDL_include.h"
+
 #include <string>
 #include <iostream>
 #include <stdbool.h>

@@ -3,6 +3,9 @@
 #include <stdbool.h>
 
 #ifndef COMPONENT
+	#define COMPONENT
+
+	// Para evitar erro de deepnested.
 	class GameObject;
 
 	class Component {
@@ -18,6 +21,5 @@
 		virtual bool Is(std::string type) = 0;
 
 	};
-	#define COMPONENT
 	#include "GameObject.h"
 #endif

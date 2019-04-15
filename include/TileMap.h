@@ -1,5 +1,6 @@
 #include "TileSet.h"
 #include "GameObject.h"
+
 #include <string>
 #include <iostream>
 #include <stdbool.h>
@@ -7,6 +8,8 @@
 #include <fstream>
 
 #ifndef TILEMAP
+	#define TILEMAP
+
 	class TileMap : public Component{
 	private:
 		std::vector<int> tileMatrix;
@@ -31,5 +34,4 @@
 		bool Is(std::string type);
 	};
 
-	#define TILEMAP
 #endif

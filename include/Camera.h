@@ -8,7 +8,7 @@
 #ifndef CAMERA
 	#define CAMERA
 
-	#define SPEEDC 200
+	#define SPEEDC 250
 
 	class Camera {
 	private:

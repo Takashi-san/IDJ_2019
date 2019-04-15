@@ -1,11 +1,13 @@
 #include "Rect.h"
+#include "Component.h"
+
 #include <iostream>
 #include <vector>
 #include <stdbool.h>
 #include <memory>
 
 #ifndef GAMEOBJ
-	class Component;
+	#define GAMEOBJ
 
 	class GameObject {
 	private:
@@ -27,6 +29,4 @@
 		Component* GetComponent(std::string);
 
 	};
-	#define GAMEOBJ
-	#include "Component.h"
 #endif

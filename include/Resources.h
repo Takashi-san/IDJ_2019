@@ -2,13 +2,15 @@
 #define INCLUDE_SDL_IMAGE
 #define INCLUDE_SDL_MIXER
 #include "SDL_include.h"
-#include "Game.h"
+
 #include <string>
 #include <iostream>
 #include <stdbool.h>
 #include <unordered_map>
 
 #ifndef RESOURCES
+	#define RESOURCES
+
 	class Resources{
 	private:
 		static std::unordered_map<std::string, SDL_Texture*> 	imageTable;
@@ -26,5 +28,4 @@
 		static void ClearSounds();
 
 	};	
-	#define RESOURCES	
 #endif

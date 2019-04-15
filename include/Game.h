@@ -3,11 +3,14 @@
 #define INCLUDE_SDL_MIXER
 #include "SDL_include.h"
 #include "State.h"
+
 #include <string>
 #include <iostream>
 #include <stdbool.h>
 
 #ifndef GAME
+	#define GAME
+		
 	class Game {
 	private:
 		Game(std::string, int, int);
@@ -31,5 +34,4 @@
 		float GetDeltaTime();
 	};
 	
-	#define GAME	
 #endif

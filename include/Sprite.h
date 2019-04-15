@@ -3,11 +3,14 @@
 #include "SDL_include.h"
 #include "Component.h"
 #include "GameObject.h"
+
 #include <string>
 #include <iostream>
 #include <stdbool.h>
 
 #ifndef SPRITE
+	#define SPRITE
+
 	class Sprite : public Component{
 	private:
 		SDL_Texture* texture;
@@ -31,5 +34,4 @@
 		bool Is(std::string type);
 	};
 	
-	#define SPRITE
 #endif

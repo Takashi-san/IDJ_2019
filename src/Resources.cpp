@@ -1,4 +1,5 @@
 #include "Resources.h"
+#include "Game.h"
 
 std::unordered_map<std::string, SDL_Texture*> 	Resources::imageTable;
 std::unordered_map<std::string, Mix_Music*> 	Resources::musicTable;

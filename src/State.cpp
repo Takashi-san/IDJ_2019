@@ -1,4 +1,10 @@
 #include "State.h"
+
+#include "Sound.h"
+#include "Face.h"
+#include "TileSet.h"
+#include "TileMap.h"
+#include "Vec2.h"
 #include "InputManager.h"
 #include "Camera.h"
 #include "CameraFollower.h"

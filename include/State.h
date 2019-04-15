@@ -1,12 +1,8 @@
 #define INCLUDE_SDL
 #include "SDL_include.h"
 #include "Sprite.h"
-#include "Sound.h"
-#include "Face.h"
 #include "Music.h"
-#include "Vec2.h"
-#include "TileSet.h"
-#include "TileMap.h"
+
 #include <string>
 #include <iostream>
 #include <stdbool.h>
@@ -16,6 +12,8 @@
 #include <math.h>
 
 #ifndef STATE
+	#define STATE
+
 	class State {
 	private:
 		//Sprite bg;
@@ -36,5 +34,4 @@
 		void Render();
 	};
 
-	#define STATE
 #endif
