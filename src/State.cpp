@@ -1,7 +1,6 @@
 #include "State.h"
 
 #include "Sound.h"
-#include "Face.h"
 #include "TileSet.h"
 #include "TileMap.h"
 #include "Vec2.h"
@@ -10,6 +9,7 @@
 #include "CameraFollower.h"
 
 State::State() {
+	started = false;
 	quitRequested = false;
 
 	// Background
@@ -58,7 +58,6 @@ void State::Update(float dt) {
 		Vec2 objPos = Vec2(200, 0);
 		objPos.Rotate(-M_PI + M_PI*(rand() % 1001)/500.0);
 		objPos = objPos + Vec2(input.GetMouseX(), input.GetMouseY());
-		AddObject((int)objPos.x, (int)objPos.y);
 	}
 	
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
@@ -82,19 +81,37 @@ bool State::QuitRequested() {
 	return quitRequested;
 }
 
-void State::AddObject(int mouseX, int mouseY) {
-	std::shared_ptr<GameObject> go = std::shared_ptr<GameObject>(new GameObject());
-    
-	Sprite *sp = new Sprite(*go, "assets/img/penguinface.png");
-	go->box.x = mouseX - sp->GetWidth()/2 + Camera::pos.x;
-	go->box.y = mouseY - sp->GetHeight()/2 + Camera::pos.y;
-	go->AddComponent(sp);
+void State::Start(){
+	LoadAssets();
+	for (unsigned int i = 0; i < objectArray.size(); i++) {
+		objectArray[i]->Start();
+	}
 
-	Sound *sd = new Sound(*go, "assets/audio/boom.wav");
-	go->AddComponent(sd);
+	started = true;
+}
 
-	Face *fc = new Face(*go);
-	go->AddComponent(fc);
+std::weak_ptr<GameObject> State::AddObject(GameObject* go) {
+	std::shared_ptr<GameObject> s_ptr(go);
+	std::weak_ptr<GameObject> weak;
 
-	objectArray.emplace_back(std::move(go));
+	objectArray.push_back(s_ptr);
+	if (started) {
+		objectArray.end()->get()->Start();
+	}
+
+	weak = objectArray[objectArray.size() - 1];
+	return weak;
+}
+
+std::weak_ptr<GameObject> State::GetObjectPtr(GameObject* go) {
+	std::weak_ptr<GameObject> weak;
+
+	for (unsigned int i = 0; i < objectArray.size(); i++) {
+		if (objectArray[i].get() == go) {
+			weak = objectArray[i];
+			return weak;
+		}
+	}
+
+	return weak;
 }

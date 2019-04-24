@@ -13,6 +13,7 @@
 	private:
 		std::vector<std::shared_ptr<Component>> components;
 		bool isDead;
+		bool started;
 
 	public:
 		Rect box;
@@ -28,5 +29,6 @@
 		void RemoveComponent(Component*);
 		Component* GetComponent(std::string);
 
+		void Start();
 	};
 #endif
