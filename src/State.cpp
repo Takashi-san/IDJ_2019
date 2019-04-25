@@ -7,6 +7,7 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "CameraFollower.h"
+#include "Alien.h"
 
 State::State() {
 	started = false;
@@ -31,6 +32,14 @@ State::State() {
 	tlmp->SetParallax(1);
 	gomp->AddComponent(tlmp);
 	objectArray.emplace_back(std::move(gomp));
+
+	// Alien
+	std::shared_ptr<GameObject> goali = std::shared_ptr<GameObject>(new GameObject());
+	Alien *alien = new Alien(*goali, 3);
+	goali->box.x = 512 - goali->box.w/2;
+	goali->box.y = 300 - goali->box.h/2;
+	goali->AddComponent(alien);
+	objectArray.emplace_back(std::move(goali));
 
 	// BGM
 	music.Open("assets/audio/stageState.ogg");

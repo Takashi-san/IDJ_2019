@@ -13,25 +13,12 @@ Sprite::Sprite(GameObject& associated, std::string file) : Component(associated)
 }
 
 Sprite::~Sprite() {
-	// desaloca imagem se tiver.
-	/* Resources cuida disso agora.
-	if (texture != nullptr) {
-		SDL_DestroyTexture(texture);
-	}
-	*/
+	
 }
 
 void Sprite::Open(std::string file) {
-	// checa texture esta vazio.
-	/* Resources cuida disso agora.
-	if (texture != nullptr) {
-		SDL_DestroyTexture(texture);
-	}
-	*/
-
 	// carrega textura
 	texture = Resources::GetImage(file.c_str());
-	//texture = IMG_LoadTexture(instance.GetRenderer(), file.c_str());
 	if (texture == nullptr) {
 		// falha em carregar imagem.
 		std::cout << "Falha em carregar textura: " << file.c_str() << "\n";
