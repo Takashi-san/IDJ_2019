@@ -8,10 +8,12 @@
 #include "Camera.h"
 #include "CameraFollower.h"
 #include "Alien.h"
+#include "Minion.h"
 
 State::State() {
 	started = false;
 	quitRequested = false;
+	objectArray.clear();
 
 	// Background
 	std::shared_ptr<GameObject> go = std::shared_ptr<GameObject>(new GameObject());
@@ -21,7 +23,7 @@ State::State() {
 	CameraFollower *cmfl = new CameraFollower(*go);
 	go->AddComponent(sp);
 	go->AddComponent(cmfl);
-	objectArray.emplace_back(std::move(go));
+	objectArray.emplace_back(go);
 	
 	// TileMap
 	std::shared_ptr<GameObject> gomp = std::shared_ptr<GameObject>(new GameObject());
@@ -31,7 +33,7 @@ State::State() {
 	TileMap *tlmp = new TileMap(*gomp, "assets/map/tileMap.txt", tlst);
 	tlmp->SetParallax(1);
 	gomp->AddComponent(tlmp);
-	objectArray.emplace_back(std::move(gomp));
+	objectArray.emplace_back(gomp);
 
 	// Alien
 	std::shared_ptr<GameObject> goali = std::shared_ptr<GameObject>(new GameObject());
@@ -39,7 +41,18 @@ State::State() {
 	goali->box.x = 512 - goali->box.w/2;
 	goali->box.y = 300 - goali->box.h/2;
 	goali->AddComponent(alien);
-	objectArray.emplace_back(std::move(goali));
+	objectArray.emplace_back(goali);
+
+	// Minion
+	std::shared_ptr<GameObject> gomini = std::shared_ptr<GameObject>(new GameObject());
+	Minion *mini = new Minion(*gomini, GetObjectPtr(goali.get()), 180);
+	gomini->box.x = 0;
+	gomini->box.y = 0;
+	gomini->AddComponent(mini);
+	std::cout << "Componente referência: " << mini << "\n";
+	std::cout << "Objeto referência: " << gomini.get() << "\n\n";
+	//objectArray.emplace_back(gomini);
+	AddObject(gomini.get());
 
 	// BGM
 	music.Open("assets/audio/stageState.ogg");
@@ -93,7 +106,10 @@ bool State::QuitRequested() {
 void State::Start(){
 	LoadAssets();
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
+		//std::cout << "i: " << i << "\n";
+		std::cout << "Object: " << objectArray[i].get() << "\n";
 		objectArray[i]->Start();
+		//std::cout << "size: " << objectArray.size() << "\n";
 	}
 
 	started = true;
@@ -103,12 +119,12 @@ std::weak_ptr<GameObject> State::AddObject(GameObject* go) {
 	std::shared_ptr<GameObject> s_ptr(go);
 	std::weak_ptr<GameObject> weak;
 
-	objectArray.push_back(s_ptr);
+	objectArray.emplace_back(s_ptr);
 	if (started) {
-		objectArray.end()->get()->Start();
+		objectArray.back()->Start();
 	}
 
-	weak = objectArray[objectArray.size() - 1];
+	weak = objectArray.back();
 	return weak;
 }
 
@@ -118,6 +134,7 @@ std::weak_ptr<GameObject> State::GetObjectPtr(GameObject* go) {
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
 		if (objectArray[i].get() == go) {
 			weak = objectArray[i];
+			//std::cout << "found pointer.\n";
 			return weak;
 		}
 	}

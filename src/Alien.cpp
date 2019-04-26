@@ -2,13 +2,17 @@
 #include "Sprite.h"
 #include "InputManager.h"
 #include "Camera.h"
+#include "State.h"
+#include "Game.h"
+#include "Minion.h"
 
 Alien::Alien(GameObject& associated, int nMinions) : Component(associated) {
 	hp = 50;
 	speed.x = 0;
 	speed.y = 0;
+	this->nMinions = nMinions;
 	Sprite* sp = new Sprite(associated, "assets/img/alien.png");
-	associated.AddComponent(sp);
+	associated.AddComponent(sp);	
 }
 
 Alien::Action::Action(ActionType type, float x, float y) {
@@ -18,7 +22,15 @@ Alien::Action::Action(ActionType type, float x, float y) {
 }
 
 void Alien::Start() {
+	/*
+	std::shared_ptr<GameObject> go = std::shared_ptr<GameObject>(new GameObject());
+	Minion *mini = new Minion(*go, Game::GetInstance().GetState().GetObjectPtr(&associated));
+	go->AddComponent(mini);
+	std::cout << go.get() << "\n";
 
+	std::weak_ptr<GameObject> weak = Game::GetInstance().GetState().AddObject(go.get());
+	minionArray.push_back(weak);
+	*/
 }
 
 Alien::~Alien() {

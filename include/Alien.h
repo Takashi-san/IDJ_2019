@@ -30,6 +30,7 @@
 
 		Vec2 speed;
 		int hp;
+		int nMinions;
 		std::queue<Action> taskQueue;
 		std::vector<std::weak_ptr<GameObject>> minionArray;
 
