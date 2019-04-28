@@ -15,44 +15,50 @@ State::State() {
 	quitRequested = false;
 	objectArray.clear();
 
+	std::weak_ptr<GameObject> weak_ptr;
+	std::shared_ptr<GameObject> ptr;
+
 	// Background
-	std::shared_ptr<GameObject> go = std::shared_ptr<GameObject>(new GameObject());
-	go->box.x = 0;
-	go->box.y = 0;
-	Sprite *sp = new Sprite(*go, "assets/img/ocean.jpg");
-	CameraFollower *cmfl = new CameraFollower(*go);
-	go->AddComponent(sp);
-	go->AddComponent(cmfl);
-	objectArray.emplace_back(go);
+	GameObject *gobg = new GameObject();
+	weak_ptr = AddObject(gobg);
+	ptr = weak_ptr.lock();
+	ptr->box.x = 0;
+	ptr->box.y = 0;
+	Sprite *sp = new Sprite(*ptr, "assets/img/ocean.jpg");
+	CameraFollower *cmfl = new CameraFollower(*ptr);
+	ptr->AddComponent(sp);
+	ptr->AddComponent(cmfl);
 	
 	// TileMap
-	std::shared_ptr<GameObject> gomp = std::shared_ptr<GameObject>(new GameObject());
-	gomp->box.x = 0;
-	gomp->box.y = 0;
-	TileSet *tlst = new TileSet(*gomp, 64, 64, "assets/img/tileset.png");
-	TileMap *tlmp = new TileMap(*gomp, "assets/map/tileMap.txt", tlst);
+	GameObject *gomp = new GameObject();
+	weak_ptr = AddObject(gomp);
+	ptr = weak_ptr.lock();
+	TileSet *tlst = new TileSet(*ptr, 64, 64, "assets/img/tileset.png");
+	TileMap *tlmp = new TileMap(*ptr, "assets/map/tileMap.txt", tlst);
 	tlmp->SetParallax(1);
-	gomp->AddComponent(tlmp);
-	objectArray.emplace_back(gomp);
+	ptr->box.x = 0;
+	ptr->box.y = 0;
+	ptr->AddComponent(tlmp);
 
 	// Alien
-	std::shared_ptr<GameObject> goali = std::shared_ptr<GameObject>(new GameObject());
-	Alien *alien = new Alien(*goali, 3);
-	goali->box.x = 512 - goali->box.w/2;
-	goali->box.y = 300 - goali->box.h/2;
-	goali->AddComponent(alien);
-	objectArray.emplace_back(goali);
+	GameObject *goali = new GameObject();
+	weak_ptr = AddObject(goali);
+	ptr = weak_ptr.lock();
+	Alien *alien = new Alien(*ptr, 5);
+	ptr->box.x = 512 - goali->box.w/2;
+	ptr->box.y = 300 - goali->box.h/2;
+	ptr->AddComponent(alien);
 
+	/*
 	// Minion
-	std::shared_ptr<GameObject> gomini = std::shared_ptr<GameObject>(new GameObject());
-	Minion *mini = new Minion(*gomini, GetObjectPtr(goali.get()), 180);
-	gomini->box.x = 0;
-	gomini->box.y = 0;
-	gomini->AddComponent(mini);
-	std::cout << "Componente referência: " << mini << "\n";
-	std::cout << "Objeto referência: " << gomini.get() << "\n\n";
-	//objectArray.emplace_back(gomini);
-	AddObject(gomini.get());
+	GameObject *gomini = new GameObject();
+	weak_ptr = AddObject(gomini);
+	ptr = weak_ptr.lock();
+	Minion *mini = new Minion(*ptr, GetObjectPtr(goali), 15);
+	ptr->box.x = 0;
+	ptr->box.y = 0;
+	ptr->AddComponent(mini);
+	*/
 
 	// BGM
 	music.Open("assets/audio/stageState.ogg");
@@ -106,10 +112,7 @@ bool State::QuitRequested() {
 void State::Start(){
 	LoadAssets();
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
-		//std::cout << "i: " << i << "\n";
-		std::cout << "Object: " << objectArray[i].get() << "\n";
 		objectArray[i]->Start();
-		//std::cout << "size: " << objectArray.size() << "\n";
 	}
 
 	started = true;
@@ -134,7 +137,6 @@ std::weak_ptr<GameObject> State::GetObjectPtr(GameObject* go) {
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
 		if (objectArray[i].get() == go) {
 			weak = objectArray[i];
-			//std::cout << "found pointer.\n";
 			return weak;
 		}
 	}

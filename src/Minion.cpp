@@ -6,21 +6,34 @@ Minion::Minion(GameObject& associated, std::weak_ptr<GameObject> alienCenter, fl
 	associated.AddComponent(sp);
 	arc = arcOffsetDeg * 0.0174533; // pi/180.
 	this->alienCenter = alienCenter;
+
+	// Coloca na posição inicial. Mesma coisa que em Update().
+	std::shared_ptr<GameObject> center = alienCenter.lock();
+	Vec2 raio(150, 0);
+	if (center) {
+		raio.Rotate(arc);
+		associated.box.x = raio.x + center->box.x + center->box.w/2 - associated.box.w/2;
+		associated.box.y = raio.y + center->box.y + center->box.h/2 - associated.box.h/2;
+	} else {
+		associated.RequestDelete();
+		return;
+	}
 }
 
 void Minion::Update(float dt) {
+	std::shared_ptr<GameObject> center;
 	Vec2 raio(150, 0);
 
-	arc += VEL_ANG*dt;
-	raio.Rotate(arc);
-	if (alienCenter.expired()) {
+	center = alienCenter.lock();
+	if (center) {
+		arc += VEL_ANG*dt;
+		raio.Rotate(arc);
+		associated.box.x = raio.x + center->box.x + center->box.w/2 - associated.box.w/2;
+		associated.box.y = raio.y + center->box.y + center->box.h/2 - associated.box.h/2;
+	} else {
 		associated.RequestDelete();
-		std::cout << "minion kill.\n";
 		return;
 	}
-
-	associated.box.x = raio.x + alienCenter.lock()->box.x + alienCenter.lock()->box.w/2 - associated.box.w/2;
-	associated.box.y = raio.y + alienCenter.lock()->box.y + alienCenter.lock()->box.h/2 - associated.box.h/2;
 }
 
 void Minion::Render() {

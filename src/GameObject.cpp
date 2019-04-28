@@ -58,11 +58,8 @@ Component* GameObject::GetComponent(std::string type) {
 
 void GameObject::Start() {
 	for (unsigned int i = 0; i < components.size(); i++){
-		std::cout << "i: " << i << "\n";
-		std::cout << "size: " << components.size() << "\n";
-		std::cout << "Component: " << components[i].get() << "\n";
 		components[i]->Start();
 	}
-	std::cout << "\n";
+	
 	started = true;
 }

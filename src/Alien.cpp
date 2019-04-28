@@ -22,15 +22,24 @@ Alien::Action::Action(ActionType type, float x, float y) {
 }
 
 void Alien::Start() {
-	/*
-	std::shared_ptr<GameObject> go = std::shared_ptr<GameObject>(new GameObject());
-	Minion *mini = new Minion(*go, Game::GetInstance().GetState().GetObjectPtr(&associated));
-	go->AddComponent(mini);
-	std::cout << go.get() << "\n";
+	std::weak_ptr<GameObject> weak_ptr;
+	std::shared_ptr<GameObject> ptr;
+	float offset;
 
-	std::weak_ptr<GameObject> weak = Game::GetInstance().GetState().AddObject(go.get());
-	minionArray.push_back(weak);
-	*/
+	for (int i = 0; i < nMinions; i++){
+		offset = (360/nMinions)*i;
+
+		GameObject *go = new GameObject();
+		weak_ptr = Game::GetInstance().GetState().AddObject(go);
+		minionArray.emplace_back(weak_ptr);
+		ptr = weak_ptr.lock();
+		
+		Minion *mini = new Minion(*ptr, Game::GetInstance().GetState().GetObjectPtr(&associated), offset);
+		ptr->box.x = 0;
+		ptr->box.y = 0;
+		ptr->AddComponent(mini);
+	}
+
 }
 
 Alien::~Alien() {
