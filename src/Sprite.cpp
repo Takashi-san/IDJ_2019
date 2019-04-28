@@ -9,14 +9,33 @@ Sprite::Sprite(GameObject& associated) : Component(associated){
 	scale.y = 1;
 	width = 0;
 	height = 0;
+
+	frameCount = 1;
+	frameTime = 1;
+	currentFrame = 0;
+	timeElapsed = 0;
 }
 
-Sprite::Sprite(GameObject& associated, std::string file) : Component(associated){
+Sprite::Sprite(GameObject& associated, std::string file, int frameCount, float frameTime) : Component(associated){
 	texture = nullptr;
 	scale.x = 1;
 	scale.y = 1;
 	width = 0;
 	height = 0;
+	
+	if (frameCount <= 0) {
+		this->frameCount = 1;
+	} else {
+		this->frameCount = frameCount;
+	}
+	if (frameTime < 0) {
+		this->frameTime = 1;
+	} else {
+		this->frameTime = frameTime;
+	}
+	currentFrame = 0;
+	timeElapsed = 0;
+	
 	Open(file);
 }
 
@@ -38,10 +57,10 @@ void Sprite::Open(std::string file) {
 	SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
 
 	// clip da imagem.
-	SetClip(0, 0, width, height);
+	SetClip(0, 0, width/frameCount, height);
 
 	// seta altura e largura no gameobject.
-	associated.box.w = width;
+	associated.box.w = width/frameCount;
 	associated.box.h = height;
 }
 
@@ -69,7 +88,7 @@ void Sprite::Render(int x, int y) {
 }
 
 int Sprite::GetWidth() {
-	return width*scale.x;
+	return (width/frameCount)*scale.x;
 }
 
 int Sprite::GetHeight() {
@@ -85,7 +104,17 @@ bool Sprite::IsOpen() {
 }
 
 void Sprite::Update(float dt){
-	
+	if (frameCount != 1) {
+		timeElapsed += dt;
+		if (timeElapsed >= frameTime) {
+			timeElapsed = 0;
+			currentFrame++;
+			if (currentFrame == frameCount) {
+				currentFrame = 0;
+			}
+			SetClip((width/frameCount)*currentFrame, 0, width/frameCount, height);
+		}
+	}
 }
 
 bool Sprite::Is(std::string type) {
@@ -105,4 +134,28 @@ void Sprite::SetScale(float scaleX, float scaleY) {
 
 Vec2 Sprite::GetScale() {
 	return scale;
+}
+
+void Sprite::SetFrame(int frame) {
+	if (frame < frameCount && frame >= 0) {
+		currentFrame = frame;
+		SetClip((width/frameCount)*currentFrame, 0, width/frameCount, height);
+	}
+}
+
+void Sprite::SetFrameCount(int frameCount) {
+	if (frameCount > 0) {
+		this->frameCount = frameCount;
+		timeElapsed = 0;
+		currentFrame = 0;
+		SetClip((width/frameCount)*currentFrame, 0, width/frameCount, height);
+		associated.box.w = width/frameCount;
+	}
+}
+
+void Sprite::SetFrameTime(float frameTime) {
+	if (frameTime >= 0) {
+		this->frameTime = frameTime;
+		timeElapsed = 0;
+	}
 }

@@ -16,7 +16,7 @@
 		int damage;
 
 	public:
-		Bullet(GameObject&, float, float, int, float, std::string);
+		Bullet(GameObject&, float, float, int, float, std::string, int = 1, float = 1);
 
 		void Update(float);
 		void Render();
