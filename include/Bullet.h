@@ -1,0 +1,26 @@
+#include "GameObject.h"
+#include "Vec2.h"
+
+#include <string>
+#include <iostream>
+#include <stdbool.h>
+#include <memory>
+
+#ifndef BULLET
+	#define BULLET
+
+	class Bullet : public Component{
+	protected:
+		Vec2 speed;
+		float distanceLeft;
+		int damage;
+
+	public:
+		Bullet(GameObject&, float, float, int, float, std::string);
+
+		void Update(float);
+		void Render();
+		bool Is(std::string);
+		int GetDamage();
+	};
+#endif

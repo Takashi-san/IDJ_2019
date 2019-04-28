@@ -11,6 +11,7 @@
 		Vec2(int, int);
 
 		void Rotate(float);
+		float Modulo();
 		Vec2 GetRotated(float);
 		Vec2 operator+(const Vec2&);
 		Vec2 operator-(const Vec2&);

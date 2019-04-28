@@ -1,5 +1,8 @@
 #include "Minion.h"
 #include "Sprite.h"
+#include "Bullet.h"
+#include "Game.h"
+#include "State.h"
 
 Minion::Minion(GameObject& associated, std::weak_ptr<GameObject> alienCenter, float arcOffsetDeg) : Component(associated) {
 	Sprite* sp = new Sprite(associated, "assets/img/minion.png");
@@ -45,5 +48,16 @@ bool Minion::Is(std::string type) {
 }
 
 void Minion::Shoot(Vec2 pos) {
+	std::weak_ptr<GameObject> weak_ptr;
+	std::shared_ptr<GameObject> ptr;
 
+	GameObject *go = new GameObject();
+	weak_ptr = Game::GetInstance().GetState().AddObject(go);
+	ptr = weak_ptr.lock();
+
+	float angle = atan2(pos.y - (associated.box.y + associated.box.h/2), pos.x - (associated.box.x + associated.box.w/2));
+	Bullet *bam = new Bullet(*ptr, angle, BULLET_SPEED, BULLET_DAMAGE, BULLET_RANGE, "assets/img/minionbullet1.png");
+	ptr->box.x = associated.box.x + associated.box.w/2 - ptr->box.w/2;
+	ptr->box.y = associated.box.y + associated.box.h/2 - ptr->box.h/2;
+	ptr->AddComponent(bam);
 }

@@ -48,7 +48,7 @@ Alien::~Alien() {
 
 void Alien::Update(float dt) {
 	InputManager& input = InputManager::GetInstance();
-	float dst;
+	float dst = 999999;
 
 	if (input.MousePress(LEFT_MOUSE_BUTTON)) {
 		Action act(Action::SHOOT, input.GetMouseX() + Camera::pos.x, input.GetMouseY() + Camera::pos.y);
@@ -60,6 +60,7 @@ void Alien::Update(float dt) {
 	}
 
 	if (taskQueue.size() != 0) {
+		int j=0;
 		switch (taskQueue.front().type){
 			case Action::MOVE:
 				speed.x = taskQueue.front().pos.x - associated.box.x;
@@ -83,6 +84,21 @@ void Alien::Update(float dt) {
 				break;
 
 			case Action::SHOOT:
+				for (unsigned int i = 0; i < minionArray.size(); i++) {
+					std::shared_ptr<GameObject> ptr = minionArray[i].lock();
+					if (ptr) {
+						float tmp = sqrt((ptr->box.x - taskQueue.front().pos.x)*(ptr->box.x - taskQueue.front().pos.x) + (ptr->box.y - taskQueue.front().pos.y)*(ptr->box.y - taskQueue.front().pos.y));
+						if (tmp < dst) {
+							dst = tmp;
+							j = i;
+						}
+					}
+				}
+
+				if (minionArray[j].lock()){
+					Minion *mini = static_cast<Minion*>(minionArray[j].lock()->GetComponent("Minion"));
+					mini->Shoot(taskQueue.front().pos);
+				}
 				taskQueue.pop();
 				break;
 
