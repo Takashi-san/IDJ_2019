@@ -18,6 +18,7 @@
 
 	public:
 		Rect box;
+		double angleDeg;
 
 		GameObject();
 		~GameObject();

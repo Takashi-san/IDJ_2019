@@ -3,6 +3,7 @@
 #include "SDL_include.h"
 #include "Component.h"
 #include "GameObject.h"
+#include "Vec2.h"
 
 #include <string>
 #include <iostream>
@@ -17,6 +18,7 @@
 		int width;
 		int height;
 		SDL_Rect clipRect;
+		Vec2 scale;
 
 	public:
 		Sprite(GameObject&);
@@ -29,6 +31,9 @@
 		int GetWidth();
 		int GetHeight();
 		bool IsOpen();
+
+		void SetScaleX(float, float);
+		Vec2 GetScale();
 
 		void Update(float dt);
 		bool Is(std::string type);
