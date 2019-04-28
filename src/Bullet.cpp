@@ -8,6 +8,7 @@ Bullet::Bullet(GameObject& associated, float angle, float speed, int damage, flo
 	this->speed.x = speed;
 	this->speed.y = 0;
 	this->speed.Rotate(angle);
+	associated.angleDeg = angle/0.0174533;
 	this->damage = damage;
 	this->distanceLeft = maxDistance;
 }

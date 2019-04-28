@@ -11,8 +11,8 @@
 #ifndef MINION
 	#define MINION
 	
-	#define VEL_ANG 0.5
-	#define BULLET_SPEED 500
+	#define MINION_VEL_ANG 0.5
+	#define BULLET_SPEED 750
 	#define BULLET_DAMAGE 10
 	#define BULLET_RANGE 1000
 

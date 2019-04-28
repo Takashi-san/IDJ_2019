@@ -32,7 +32,7 @@
 		int GetHeight();
 		bool IsOpen();
 
-		void SetScaleX(float, float);
+		void SetScale(float, float);
 		Vec2 GetScale();
 
 		void Update(float dt);

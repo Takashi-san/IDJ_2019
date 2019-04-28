@@ -12,6 +12,7 @@
 #ifndef ALIEN
 	#define ALIEN
 	
+	#define ALIEN_VEL_ANG -0.2
 	#define ALIEN_SPEED 250
 
 	class Alien : public Component{

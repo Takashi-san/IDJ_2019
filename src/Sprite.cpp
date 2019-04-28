@@ -92,7 +92,7 @@ bool Sprite::Is(std::string type) {
 	return !strcmp(type.c_str(), "Sprite");
 }
 
-void Sprite::SetScaleX(float scaleX, float scaleY) {
+void Sprite::SetScale(float scaleX, float scaleY) {
 	if (scaleX != 0) {
 		scale.x = scaleX;
 		associated.box.w = GetWidth();

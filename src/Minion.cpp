@@ -6,6 +6,8 @@
 
 Minion::Minion(GameObject& associated, std::weak_ptr<GameObject> alienCenter, float arcOffsetDeg) : Component(associated) {
 	Sprite* sp = new Sprite(associated, "assets/img/minion.png");
+	float escala = 1.0 + float(std::rand()/float(RAND_MAX/0.5));
+	sp->SetScale(escala, escala);
 	associated.AddComponent(sp);
 	arc = arcOffsetDeg * 0.0174533; // pi/180.
 	this->alienCenter = alienCenter;
@@ -29,7 +31,8 @@ void Minion::Update(float dt) {
 
 	center = alienCenter.lock();
 	if (center) {
-		arc += VEL_ANG*dt;
+		arc += MINION_VEL_ANG*dt;
+		associated.angleDeg = arc/0.0174533;
 		raio.Rotate(arc);
 		associated.box.x = raio.x + center->box.x + center->box.w/2 - associated.box.w/2;
 		associated.box.y = raio.y + center->box.y + center->box.h/2 - associated.box.h/2;

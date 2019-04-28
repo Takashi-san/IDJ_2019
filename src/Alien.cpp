@@ -50,6 +50,8 @@ void Alien::Update(float dt) {
 	InputManager& input = InputManager::GetInstance();
 	float dst = 999999;
 
+	associated.angleDeg += (ALIEN_VEL_ANG/0.0174533)*dt;
+
 	if (input.MousePress(LEFT_MOUSE_BUTTON)) {
 		Action act(Action::SHOOT, input.GetMouseX() + Camera::pos.x, input.GetMouseY() + Camera::pos.y);
 		taskQueue.push(act);
