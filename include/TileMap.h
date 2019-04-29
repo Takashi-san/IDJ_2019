@@ -1,3 +1,4 @@
+#include "Component.h"
 #include "TileSet.h"
 #include "GameObject.h"
 

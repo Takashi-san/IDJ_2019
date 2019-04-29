@@ -1,3 +1,4 @@
+#include "Component.h"
 #include "GameObject.h"
 #include "Vec2.h"
 
@@ -10,7 +11,7 @@
 	#define BULLET
 
 	class Bullet : public Component{
-	protected:
+	private:
 		Vec2 speed;
 		float distanceLeft;
 		int damage;

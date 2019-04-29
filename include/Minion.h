@@ -1,3 +1,4 @@
+#include "Component.h"
 #include "GameObject.h"
 #include "Vec2.h"
 
@@ -17,7 +18,7 @@
 	#define BULLET_RANGE 1000
 
 	class Minion : public Component{
-	protected:
+	private:
 		std::weak_ptr<GameObject> alienCenter;
 		float arc;
 

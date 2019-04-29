@@ -16,7 +16,7 @@
 	#define ALIEN_SPEED 250
 
 	class Alien : public Component{
-	protected:
+	private:
 		class Action {
 		public:
 			enum ActionType {
