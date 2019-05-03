@@ -8,7 +8,7 @@
 		float x, y;
 
 		Vec2(){}
-		Vec2(int, int);
+		Vec2(float, float);
 
 		void Rotate(float);
 		float Modulo();

@@ -10,6 +10,10 @@
 #ifndef PENGUIN_CANNON
 	#define PENGUIN_CANNON
 
+	#define PCANNON_BULLET_SPEED 750
+	#define PCANNON_BULLET_DAMAGE 10
+	#define PCANNON_BULLET_RANGE 1000
+
 	class PenguinCannon : public Component{
 	private:
 		std::weak_ptr<GameObject> pbody;

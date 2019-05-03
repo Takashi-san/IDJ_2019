@@ -10,6 +10,10 @@
 #ifndef PENGUIN_BODY
 	#define PENGUIN_BODY
 
+	#define PBODY_ACCEL 500
+	#define PBODY_VEL_CAP 250
+	#define PBODY_VEL_ANG 2
+
 	class PenguinBody : public Component{
 	private:
 		std::weak_ptr<GameObject> pcannon;

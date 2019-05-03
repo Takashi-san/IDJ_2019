@@ -59,8 +59,7 @@ void Minion::Shoot(Vec2 pos) {
 	ptr = weak_ptr.lock();
 
 	float angle = atan2(pos.y - (associated.box.y + associated.box.h/2), pos.x - (associated.box.x + associated.box.w/2));
-	Bullet *bam = new Bullet(*ptr, angle, BULLET_SPEED, BULLET_DAMAGE, BULLET_RANGE, "assets/img/minionbullet2.png", 3, 0.04);
-	ptr->box.x = associated.box.x + associated.box.w/2 - ptr->box.w/2;
-	ptr->box.y = associated.box.y + associated.box.h/2 - ptr->box.h/2;
+	Bullet *bam = new Bullet(*ptr, angle, MINION_BULLET_SPEED, MINION_BULLET_DAMAGE, MINION_BULLET_RANGE, "assets/img/minionbullet2.png", 3, 0.04);
+	ptr->box.Centered(associated.box.Center());
 	ptr->AddComponent(bam);
 }

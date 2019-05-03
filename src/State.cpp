@@ -9,6 +9,7 @@
 #include "CameraFollower.h"
 #include "Alien.h"
 #include "Minion.h"
+#include "PenguinBody.h"
 
 State::State() {
 	started = false;
@@ -59,6 +60,16 @@ State::State() {
 	ptr->box.y = 0;
 	ptr->AddComponent(mini);
 	*/
+
+	// PenguinBody
+	GameObject *gopen = new GameObject();
+	weak_ptr = AddObject(gopen);
+	ptr = weak_ptr.lock();
+	PenguinBody *penb = new PenguinBody(*ptr);
+	ptr->box.x = 704;
+	ptr->box.y = 640;
+	ptr->AddComponent(penb);
+	Camera::Follow(ptr.get());
 
 	// BGM
 	music.Open("assets/audio/stageState.ogg");

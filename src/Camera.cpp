@@ -16,8 +16,8 @@ void Camera::Unfollow() {
 void Camera::Update(float dt) {
 	if (focus != nullptr) {
 		// Se mudar o tamanho da tela tem que mudar aqui!!!
-		pos.x = focus->box.x + focus->box.w - 1024/2;
-		pos.y = focus->box.y + focus->box.h - 600/2;
+		pos.x = focus->box.Center().x - 1024/2;
+		pos.y = focus->box.Center().y - 600/2;
 	} else {
 		InputManager& input = InputManager::GetInstance();
 

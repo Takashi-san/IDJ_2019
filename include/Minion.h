@@ -13,9 +13,9 @@
 	#define MINION
 	
 	#define MINION_VEL_ANG 0.5
-	#define BULLET_SPEED 750
-	#define BULLET_DAMAGE 10
-	#define BULLET_RANGE 1000
+	#define MINION_BULLET_SPEED 750
+	#define MINION_BULLET_DAMAGE 10
+	#define MINION_BULLET_RANGE 1000
 
 	class Minion : public Component{
 	private:
