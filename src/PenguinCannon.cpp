@@ -50,11 +50,17 @@ void PenguinCannon::Shoot() {
 	weak_ptr = Game::GetInstance().GetState().AddObject(go);
 	ptr = weak_ptr.lock();
 
-	Bullet *bam = new Bullet(*ptr, angle, PCANNON_BULLET_SPEED, PCANNON_BULLET_DAMAGE, PCANNON_BULLET_RANGE, "assets/img/minionbullet2.png", 3, 0.04);
+	Bullet *bam = new Bullet(*ptr, angle, PCANNON_BULLET_SPEED, PCANNON_BULLET_DAMAGE, PCANNON_BULLET_RANGE, "assets/img/minionbullet2.png", 3, 0.04, false);
 	ptr->box.Centered(associated.box.Center());
 	Vec2 offset(associated.box.w/2, 0);
 	offset.Rotate(angle);
 	ptr->box.x += offset.x;
 	ptr->box.y += offset.y;
 	ptr->AddComponent(bam);
+}
+
+void PenguinCannon::NotifyCollision(GameObject& other) {
+	if (other.GetComponent("Bullet") && static_cast<Bullet*>(other.GetComponent("Bullet"))->targetsPlayer) {
+		
+	}
 }

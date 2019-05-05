@@ -4,6 +4,8 @@
 #include "InputManager.h"
 #include "PenguinCannon.h"
 #include "Collider.h"
+#include "Camera.h"
+#include "Bullet.h"
 
 PenguinBody* PenguinBody::Player;
 
@@ -71,6 +73,7 @@ void PenguinBody::Update(float dt) {
 
 	if (hp <= 0) {
 		associated.RequestDelete();
+		Camera::Unfollow();
 		std::shared_ptr<GameObject> cannon = pcannon.lock();
 		if (cannon) {
 			cannon->RequestDelete();
@@ -84,4 +87,10 @@ void PenguinBody::Render() {
 
 bool PenguinBody::Is(std::string type) {
 	return !strcmp(type.c_str(), "PenguinBody");
+}
+
+void PenguinBody::NotifyCollision(GameObject& other) {
+	if (other.GetComponent("Bullet") && static_cast<Bullet*>(other.GetComponent("Bullet"))->targetsPlayer) {
+		hp -= static_cast<Bullet*>(other.GetComponent("Bullet"))->GetDamage();
+	}
 }

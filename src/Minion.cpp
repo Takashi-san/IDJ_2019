@@ -9,7 +9,7 @@ Minion::Minion(GameObject& associated, std::weak_ptr<GameObject> alienCenter, fl
 	Sprite* sp = new Sprite(associated, "assets/img/minion.png");
 	float escala = 1.0 + float(std::rand()/float(RAND_MAX/0.5));
 	sp->SetScale(escala, escala);
-	Collider *cl = new Collider(associated);
+	Collider *cl = new Collider(associated, {0.85, 0.85});
 	associated.AddComponent(sp);
 	associated.AddComponent(cl);
 	
@@ -66,4 +66,10 @@ void Minion::Shoot(Vec2 pos) {
 	Bullet *bam = new Bullet(*ptr, angle, MINION_BULLET_SPEED, MINION_BULLET_DAMAGE, MINION_BULLET_RANGE, "assets/img/minionbullet2.png", 3, 0.04);
 	ptr->box.Centered(associated.box.Center());
 	ptr->AddComponent(bam);
+}
+
+void Minion::NotifyCollision(GameObject& other) {
+	if (other.GetComponent("Bullet") && !static_cast<Bullet*>(other.GetComponent("Bullet"))->targetsPlayer) {
+		
+	}
 }

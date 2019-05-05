@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "Minion.h"
 #include "Collider.h"
+#include "Bullet.h"
 
 Alien::Alien(GameObject& associated, int nMinions) : Component(associated) {
 	hp = 50;
@@ -13,7 +14,7 @@ Alien::Alien(GameObject& associated, int nMinions) : Component(associated) {
 	speed.y = 0;
 	this->nMinions = nMinions;
 	Sprite *sp = new Sprite(associated, "assets/img/alien.png");
-	Collider *cl = new Collider(associated);
+	Collider *cl = new Collider(associated, {0.85, 0.85});
 	associated.AddComponent(sp);
 	associated.AddComponent(cl);	
 }
@@ -123,4 +124,10 @@ void Alien::Render() {
 
 bool Alien::Is(std::string type) {
 	return !strcmp(type.c_str(), "Alien");
+}
+
+void Alien::NotifyCollision(GameObject& other) {
+	if (other.GetComponent("Bullet") && !static_cast<Bullet*>(other.GetComponent("Bullet"))->targetsPlayer) {
+		hp -= static_cast<Bullet*>(other.GetComponent("Bullet"))->GetDamage();
+	}
 }

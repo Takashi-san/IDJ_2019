@@ -71,7 +71,7 @@ class Collision {
 
 		static inline Vec2 Rotate(const Vec2& p, float angle) {
 			float cs = std::cos(angle), sn = std::sin(angle);
-			return Vec2 ( p.x * cs + p.y * sn, p.x * sn + p.y * cs );
+			return Vec2 ( p.x * cs - p.y * sn, p.x * sn + p.y * cs );
 		}
 };
 #endif

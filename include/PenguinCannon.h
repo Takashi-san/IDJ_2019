@@ -25,6 +25,7 @@
 		void Update(float);
 		void Render();
 		bool Is(std::string);
+		void NotifyCollision(GameObject&);
 
 		void Shoot();
 	};

@@ -111,6 +111,21 @@ void State::Update(float dt) {
 			i--;
 		}
 	}
+
+	for (unsigned int i = 0; i < objectArray.size(); i++) {
+		Collider *coli = static_cast<Collider*>(objectArray[i]->GetComponent("Collider"));
+		if (coli != nullptr) {
+			for (unsigned int j = i+1; j < objectArray.size(); j++) {
+				Collider *colj = static_cast<Collider*>(objectArray[j]->GetComponent("Collider"));
+				if (colj != nullptr) {
+					if (Collision::IsColliding(coli->box, colj->box, objectArray[i]->angleDeg/0.0174533, objectArray[j]->angleDeg/0.0174533)) {
+						objectArray[i]->NotifyCollision(*(objectArray[j]));
+						objectArray[j]->NotifyCollision(*(objectArray[i]));
+					}
+				}
+			}
+		}
+	}
 }
 
 void State::Render() {

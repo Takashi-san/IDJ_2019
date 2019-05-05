@@ -17,11 +17,13 @@
 		int damage;
 
 	public:
-		Bullet(GameObject&, float, float, int, float, std::string, int = 1, float = 1);
+		bool targetsPlayer;
+		Bullet(GameObject&, float, float, int, float, std::string, int = 1, float = 1, bool = true);
 
 		void Update(float);
 		void Render();
 		bool Is(std::string);
+		void NotifyCollision(GameObject&);
 		int GetDamage();
 	};
 #endif
