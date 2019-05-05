@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include "InputManager.h"
 #include "PenguinCannon.h"
+#include "Collider.h"
 
 PenguinBody* PenguinBody::Player;
 
@@ -11,6 +12,9 @@ PenguinBody::PenguinBody(GameObject& associated) : Component(associated) {
 
 	Sprite* sp = new Sprite(associated, "assets/img/penguin.png");
 	associated.AddComponent(sp);
+	Collider *cl = new Collider(associated);
+	associated.AddComponent(cl);
+	
 
 	linearSpeed = 0;
 	angle = 0;

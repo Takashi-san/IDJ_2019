@@ -1,10 +1,13 @@
 #include "Bullet.h"
 #include "Sprite.h"
+#include "Collider.h"
 
 Bullet::Bullet(GameObject& associated, float angle, float speed, int damage, float maxDistance, std::string sprite, int frameCount, float frameTime) : Component(associated) {
 	Sprite* sp = new Sprite(associated, sprite, frameCount, frameTime);
 	sp->SetScale(2, 2);
+	Collider *cl = new Collider(associated);
 	associated.AddComponent(sp);
+	associated.AddComponent(cl);
 
 	this->speed.x = speed;
 	this->speed.y = 0;

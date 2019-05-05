@@ -10,6 +10,8 @@
 #include "Alien.h"
 #include "Minion.h"
 #include "PenguinBody.h"
+#include "Collision.h"
+#include "Collider.h"
 
 State::State() {
 	started = false;
@@ -103,9 +105,10 @@ void State::Update(float dt) {
 		objectArray[i]->Update(dt);
 	}
 	
-	for (unsigned int i = 0; i < objectArray.size(); i++) {
-		if (objectArray[i]->IsDead()) {
-			objectArray.erase(objectArray.begin() + i);
+	for (std::vector<std::shared_ptr<GameObject>>::iterator i = objectArray.begin(); i < objectArray.end(); i++) {
+		if (i->get()->IsDead()) {
+			i = objectArray.erase(i);
+			i--;
 		}
 	}
 }

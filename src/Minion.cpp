@@ -3,12 +3,16 @@
 #include "Bullet.h"
 #include "Game.h"
 #include "State.h"
+#include "Collider.h"
 
 Minion::Minion(GameObject& associated, std::weak_ptr<GameObject> alienCenter, float arcOffsetDeg) : Component(associated) {
 	Sprite* sp = new Sprite(associated, "assets/img/minion.png");
 	float escala = 1.0 + float(std::rand()/float(RAND_MAX/0.5));
 	sp->SetScale(escala, escala);
+	Collider *cl = new Collider(associated);
 	associated.AddComponent(sp);
+	associated.AddComponent(cl);
+	
 	arc = arcOffsetDeg * 0.0174533; // pi/180.
 	this->alienCenter = alienCenter;
 

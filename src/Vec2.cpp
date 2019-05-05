@@ -15,8 +15,9 @@ void Vec2::Rotate(float rad){
 }
 
 Vec2 Vec2::GetRotated(float rad){
-	this->Rotate(rad);
-	return *this;
+	Vec2 ans = *this;
+	ans.Rotate(rad);
+	return ans;
 }
 
 float Vec2::Modulo() {
@@ -24,15 +25,13 @@ float Vec2::Modulo() {
 }
 
 Vec2 Vec2::operator+(const Vec2& arg) {
-	Vec2 ans;
-	ans.x = this->x + arg.x;
-	ans.y = this->y + arg.y;
-	return ans;
+	return Vec2(x + arg.x, y + arg.y);
 }
 
 Vec2 Vec2::operator-(const Vec2& arg) {
-	Vec2 ans;
-	ans.x = this->x - arg.x;
-	ans.y = this->y - arg.y;
-	return ans;
+	return Vec2(x - arg.x, y - arg.y);
+}
+
+Vec2 Vec2::operator*(const float a) {
+	return Vec2(a*x, a*y);
 }

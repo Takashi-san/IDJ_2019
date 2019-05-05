@@ -4,10 +4,13 @@
 #include "Bullet.h"
 #include "Camera.h"
 #include "Sprite.h"
+#include "Collider.h"
 
 PenguinCannon::PenguinCannon(GameObject& associated, std::weak_ptr<GameObject> penguinBody) : Component(associated) {
 	Sprite* sp = new Sprite(associated, "assets/img/cubngun.png");
 	associated.AddComponent(sp);
+	Collider *cl = new Collider(associated);
+	associated.AddComponent(cl);
 
 	angle = 0;
 	pbody = penguinBody;

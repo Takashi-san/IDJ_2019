@@ -5,14 +5,17 @@
 #include "State.h"
 #include "Game.h"
 #include "Minion.h"
+#include "Collider.h"
 
 Alien::Alien(GameObject& associated, int nMinions) : Component(associated) {
 	hp = 50;
 	speed.x = 0;
 	speed.y = 0;
 	this->nMinions = nMinions;
-	Sprite* sp = new Sprite(associated, "assets/img/alien.png");
-	associated.AddComponent(sp);	
+	Sprite *sp = new Sprite(associated, "assets/img/alien.png");
+	Collider *cl = new Collider(associated);
+	associated.AddComponent(sp);
+	associated.AddComponent(cl);	
 }
 
 Alien::Action::Action(ActionType type, float x, float y) {
