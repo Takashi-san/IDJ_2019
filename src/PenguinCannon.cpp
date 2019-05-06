@@ -30,7 +30,7 @@ void PenguinCannon::Update(float dt) {
 
 		cd.Update(dt);
 		if (input.MousePress(LEFT_MOUSE_BUTTON)) {
-			if (cd.Get() > 0.5) {
+			if (cd.Get() > PCANNON_SHOOT_CD) {
 				Shoot();
 				cd.Restart();
 			}	

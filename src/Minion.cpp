@@ -45,6 +45,19 @@ void Minion::Update(float dt) {
 		associated.box.y = raio.y + center->box.y + center->box.h/2 - associated.box.h/2;
 	} else {
 		associated.RequestDelete();
+		
+		GameObject *go = new GameObject();
+		std::weak_ptr<GameObject> weak_ptr = Game::GetInstance().GetState().AddObject(go);
+		std::shared_ptr<GameObject> ptr = weak_ptr.lock();
+		
+		Sprite* sp = new Sprite(*ptr, "assets/img/miniondeath.png", 4, 0.1, 4*0.1);
+		Sound *so = new Sound(*ptr, "assets/audio/boom.wav");
+		sp->SetScale(static_cast<Sprite*>(associated.GetComponent("Sprite"))->GetScale());
+		ptr->box.Centered(associated.box.Center());
+		ptr->AddComponent(sp);
+		ptr->AddComponent(so);
+
+		so->Play(1);
 		return;
 	}
 

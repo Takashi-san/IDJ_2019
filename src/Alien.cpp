@@ -63,8 +63,8 @@ void Alien::Update(float dt) {
 		switch (state) {
 			case MOVING:
 				// Se chegou no destino.
-				if ((associated.box.Center().x < destination.x + dt*abs(speed.x)) && (associated.box.Center().x > destination.x - dt*abs(speed.x)) &&
-					(associated.box.Center().y < destination.y + dt*abs(speed.y)) && (associated.box.Center().y > destination.y - dt*abs(speed.y))) {
+				if ((associated.box.Center().x <= destination.x + dt*abs(speed.x)) && (associated.box.Center().x >= destination.x - dt*abs(speed.x)) &&
+					(associated.box.Center().y <= destination.y + dt*abs(speed.y)) && (associated.box.Center().y >= destination.y - dt*abs(speed.y))) {
 					// Coloca na posição final.
 					associated.box.Centered(destination);
 					speed.x = 0;
@@ -100,9 +100,13 @@ void Alien::Update(float dt) {
 
 			case RESTING:
 				restTimer.Update(dt);
-				if (restTimer.Get() > 1.0 + float(std::rand()/float(RAND_MAX))) {
+				if (restTimer.Get() > ALIEN_REST_BASE + float(std::rand()/float(RAND_MAX/ALIEN_REST_RAND))) {
 					destination = PenguinBody::player->GetPos();
-					speed = ((destination - associated.box.Center())/((destination - associated.box.Center()).Modulo())) * ALIEN_SPEED;
+					if ((destination - associated.box.Center()).Modulo() != 0) {
+						speed = ((destination - associated.box.Center())/((destination - associated.box.Center()).Modulo())) * ALIEN_SPEED;
+					} else {
+						speed = {0, 0};
+					}
 
 					state = MOVING;
 				}

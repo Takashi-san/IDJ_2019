@@ -15,6 +15,8 @@
 	
 	#define ALIEN_VEL_ANG -0.2
 	#define ALIEN_SPEED 250
+	#define ALIEN_REST_BASE 0.3
+	#define ALIEN_REST_RAND 0.5
 
 	class Alien : public Component{
 	private:
