@@ -23,7 +23,7 @@
 		int hp;
 
 	public:
-		static PenguinBody* Player;
+		static PenguinBody* player;
 		
 		PenguinBody(GameObject&);
 		~PenguinBody();
@@ -33,5 +33,7 @@
 		void Render();
 		bool Is(std::string);
 		void NotifyCollision(GameObject&);
+
+		Vec2 GetPos();
 	};
 #endif

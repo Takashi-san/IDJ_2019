@@ -8,10 +8,10 @@
 #include "Bullet.h"
 #include "Sound.h"
 
-PenguinBody* PenguinBody::Player;
+PenguinBody* PenguinBody::player;
 
 PenguinBody::PenguinBody(GameObject& associated) : Component(associated) {
-	Player = this;
+	player = this;
 
 	Sprite* sp = new Sprite(associated, "assets/img/penguin.png");
 	associated.AddComponent(sp);
@@ -27,7 +27,7 @@ PenguinBody::PenguinBody(GameObject& associated) : Component(associated) {
 }
 
 PenguinBody::~PenguinBody() {
-	Player = nullptr;
+	player = nullptr;
 }
 
 void PenguinBody::Start() {
@@ -106,4 +106,8 @@ void PenguinBody::NotifyCollision(GameObject& other) {
 	if (other.GetComponent("Bullet") && static_cast<Bullet*>(other.GetComponent("Bullet"))->targetsPlayer) {
 		hp -= static_cast<Bullet*>(other.GetComponent("Bullet"))->GetDamage();
 	}
+}
+
+Vec2 PenguinBody::GetPos() {
+	return associated.box.Center();
 }

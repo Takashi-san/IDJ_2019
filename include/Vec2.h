@@ -16,5 +16,6 @@
 		Vec2 operator+(const Vec2&);
 		Vec2 operator-(const Vec2&);
 		Vec2 operator*(const float);
+		Vec2 operator/(const float);
 	};
 #endif

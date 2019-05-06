@@ -37,3 +37,7 @@ Vec2 Vec2::operator-(const Vec2& arg) {
 Vec2 Vec2::operator*(const float a) {
 	return Vec2(a*x, a*y);
 }
+
+Vec2 Vec2::operator/(const float a) {
+	return Vec2(x/a, y/a);
+}

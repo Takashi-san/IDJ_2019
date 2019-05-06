@@ -1,6 +1,7 @@
 #include "Component.h"
 #include "GameObject.h"
 #include "Vec2.h"
+#include "State.h"
 
 #include <string>
 #include <iostream>
@@ -17,25 +18,19 @@
 
 	class Alien : public Component{
 	private:
-		class Action {
-		public:
-			enum ActionType {
-				MOVE,
-				SHOOT
-			};
-			ActionType type;
-			Vec2 pos;
-
-			Action(ActionType, float, float);
-		};
+		enum AlienState { MOVING, RESTING };
+		AlienState state;
+		Timer restTimer;
+		Vec2 destination;
 
 		Vec2 speed;
 		int hp;
 		int nMinions;
-		std::queue<Action> taskQueue;
 		std::vector<std::weak_ptr<GameObject>> minionArray;
 
 	public:
+		static int alienCount;
+
 		Alien(GameObject&, int);
 		~Alien();
 
