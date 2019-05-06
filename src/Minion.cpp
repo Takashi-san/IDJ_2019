@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "State.h"
 #include "Collider.h"
+#include "Sound.h"
 
 Minion::Minion(GameObject& associated, std::weak_ptr<GameObject> alienCenter, float arcOffsetDeg) : Component(associated) {
 	Sprite* sp = new Sprite(associated, "assets/img/minion.png");
@@ -27,6 +28,8 @@ Minion::Minion(GameObject& associated, std::weak_ptr<GameObject> alienCenter, fl
 		associated.RequestDelete();
 		return;
 	}
+
+	hp = 30;
 }
 
 void Minion::Update(float dt) {
@@ -43,6 +46,23 @@ void Minion::Update(float dt) {
 	} else {
 		associated.RequestDelete();
 		return;
+	}
+
+	if (hp <= 0) {
+		associated.RequestDelete();
+
+		GameObject *go = new GameObject();
+		std::weak_ptr<GameObject> weak_ptr = Game::GetInstance().GetState().AddObject(go);
+		std::shared_ptr<GameObject> ptr = weak_ptr.lock();
+		
+		Sprite* sp = new Sprite(*ptr, "assets/img/miniondeath.png", 4, 0.1, 4*0.1);
+		Sound *so = new Sound(*ptr, "assets/audio/boom.wav");
+		sp->SetScale(static_cast<Sprite*>(associated.GetComponent("Sprite"))->GetScale());
+		ptr->box.Centered(associated.box.Center());
+		ptr->AddComponent(sp);
+		ptr->AddComponent(so);
+
+		so->Play(1);
 	}
 }
 
@@ -70,6 +90,6 @@ void Minion::Shoot(Vec2 pos) {
 
 void Minion::NotifyCollision(GameObject& other) {
 	if (other.GetComponent("Bullet") && !static_cast<Bullet*>(other.GetComponent("Bullet"))->targetsPlayer) {
-		
+		hp -= static_cast<Bullet*>(other.GetComponent("Bullet"))->GetDamage();
 	}
 }

@@ -14,6 +14,7 @@ Sprite::Sprite(GameObject& associated) : Component(associated){
 	frameTime = 1;
 	currentFrame = 0;
 	timeElapsed = 0;
+	secondsToSelfDestruct = 0;
 }
 
 Sprite::Sprite(GameObject& associated, std::string file, int frameCount, float frameTime, float secondsToSelfDestruct) : Component(associated){
@@ -138,6 +139,10 @@ void Sprite::SetScale(float scaleX, float scaleY) {
 		scale.y = scaleY;
 		associated.box.h = GetHeight();
 	}
+}
+
+void Sprite::SetScale(Vec2 arg) {
+	SetScale(arg.x, arg.y);
 }
 
 Vec2 Sprite::GetScale() {

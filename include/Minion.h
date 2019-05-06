@@ -21,6 +21,7 @@
 	private:
 		std::weak_ptr<GameObject> alienCenter;
 		float arc;
+		int hp;
 
 	public:
 		Minion(GameObject&, std::weak_ptr<GameObject>, float = 0);

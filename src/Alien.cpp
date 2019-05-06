@@ -10,7 +10,7 @@
 #include "Sound.h"
 
 Alien::Alien(GameObject& associated, int nMinions) : Component(associated) {
-	hp = 50;
+	hp = 70;
 	speed.x = 0;
 	speed.y = 0;
 	this->nMinions = nMinions;

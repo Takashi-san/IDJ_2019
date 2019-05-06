@@ -42,6 +42,7 @@
 		bool IsOpen();
 
 		void SetScale(float, float);
+		void SetScale(Vec2);
 		Vec2 GetScale();
 
 		void SetFrame(int);
