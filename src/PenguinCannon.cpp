@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Sprite.h"
 #include "Collider.h"
+#include "Timer.h"
 
 PenguinCannon::PenguinCannon(GameObject& associated, std::weak_ptr<GameObject> penguinBody) : Component(associated) {
 	Sprite* sp = new Sprite(associated, "assets/img/cubngun.png");
@@ -17,6 +18,7 @@ PenguinCannon::PenguinCannon(GameObject& associated, std::weak_ptr<GameObject> p
 }
 
 void PenguinCannon::Update(float dt) {
+	static Timer cdr;
 	InputManager& input = InputManager::GetInstance();
 
 	std::shared_ptr<GameObject> pb = pbody.lock();
@@ -26,8 +28,12 @@ void PenguinCannon::Update(float dt) {
 		angle = atan2(input.GetMouseY() + Camera::pos.y - associated.box.Center().y, input.GetMouseX() + Camera::pos.x - associated.box.Center().x);
 		associated.angleDeg = angle/0.0174533;
 
+		cdr.Update(dt);
 		if (input.MousePress(LEFT_MOUSE_BUTTON)) {
-			Shoot();
+			if (cdr.Get() > 0.5) {
+				Shoot();
+				cdr.Restart();
+			}	
 		}
 	} else {
 		associated.RequestDelete();
