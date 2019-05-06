@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "GameObject.h"
 #include "Vec2.h"
+#include "Timer.h"
 
 #include <string>
 #include <iostream>
@@ -25,9 +26,12 @@
 		float timeElapsed;
 		float frameTime;
 
+		Timer selfDestructCount;
+		float secondsToSelfDestruct;
+
 	public:
 		Sprite(GameObject&);
-		Sprite(GameObject&, std::string, int = 1, float = 1);
+		Sprite(GameObject&, std::string, int = 1, float = 1, float = 0);
 		~Sprite();
 		void Open(std::string);
 		void SetClip(int, int, int, int);

@@ -7,6 +7,7 @@
 #include "Minion.h"
 #include "Collider.h"
 #include "Bullet.h"
+#include "Sound.h"
 
 Alien::Alien(GameObject& associated, int nMinions) : Component(associated) {
 	hp = 50;
@@ -115,6 +116,18 @@ void Alien::Update(float dt) {
 
 	if (hp <= 0) {
 		associated.RequestDelete();
+
+		GameObject *go = new GameObject();
+		std::weak_ptr<GameObject> weak_ptr = Game::GetInstance().GetState().AddObject(go);
+		std::shared_ptr<GameObject> ptr = weak_ptr.lock();
+		
+		Sprite* sp = new Sprite(*ptr, "assets/img/aliendeath.png", 4, 0.1, 4*0.1);
+		Sound *so = new Sound(*ptr, "assets/audio/boom.wav");
+		ptr->box.Centered(associated.box.Center());
+		ptr->AddComponent(sp);
+		ptr->AddComponent(so);
+
+		so->Play(1);
 	}
 }
 
