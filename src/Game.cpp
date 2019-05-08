@@ -9,6 +9,10 @@ Game::Game(std::string title, int width, int height) {
 
 	dt = 0;
 	frameStart = SDL_GetTicks();
+	storedState = nullptr;
+
+	// Seed do random.
+	srand(time(NULL));
 
 	// Verifica se ja existe um objeto da classe.
 	if (instance != nullptr){
@@ -65,11 +69,29 @@ Game::Game(std::string title, int width, int height) {
 		std::cout << "Erro inicialização SDL_CreateRenderer: " << SDL_GetError() << "\n";
 		exit(EXIT_FAILURE);
 	}
+}
 
-	state = new State();
+Game::~Game() {
+	// Esvazia pilha de estados e o estado armazenado.
+	if (storedState != nullptr){
+		delete storedState;
+	}
+	while (!stateStack.empty()) {
+		stateStack.pop();
+	}
 
-	srand(time(NULL));
+	// Limpando os recursos.
+	Resources::ClearImages();
+	Resources::ClearSounds();
+	Resources::ClearMusics();
 
+	// Precisa desfazer na ordem inversa aa inicializacao.
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+	Mix_CloseAudio();
+	Mix_Quit();
+	IMG_Quit();
+	SDL_Quit();
 }
 
 Game& Game::GetInstance() {
@@ -83,37 +105,60 @@ Game& Game::GetInstance() {
 	return *instance;
 }
 
-State& Game::GetState() {
-	return *state;
-}
-
 SDL_Renderer* Game::GetRenderer() {
 	return renderer;
 }
 
-Game::~Game() {
-	// Precisa desfazer na ordem inversa aa inicializacao.
-	delete state;
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	Mix_CloseAudio();
-	Mix_Quit();
-	IMG_Quit();
-	SDL_Quit();
+State& Game::GetCurrentState() {
+	return *(stateStack.top());
+}
+
+void Game::Puch(State* state) {
+	storedState = state;
 }
 
 void Game::Run() {
 	InputManager& input = InputManager::GetInstance();
 
-	state->Start();
-	while (!state->QuitRequested()) {
+	// Carrega estado inicial.
+	if (storedState != nullptr) {
+		stateStack.push(*storedState);
+		stateStack.top()->Start();
+		storedState = nullptr;
+	} else {
+		return;
+	}
+
+	// Main game loop.
+	while (!stateStack.top()->QuitRequested() && !stateStack.empty()) {
+		// Gerenciando a pilha de estados.
+		if (stateStack.top()->PopRequested()) {
+			stateStack.pop();
+			if (!stateStack.empty()) {
+				stateStack.top()->Resume();
+			}
+		}
+		if (storedState != nullptr) {
+			if (!stateStack.empty()) {
+				stateStack.top()->Pause();
+			}
+			stateStack.push(*storedState);
+			stateStack.top()->Start();
+			storedState = nullptr;
+		} else if (stateStack.empty()) {
+			break;
+		}
+
+		// Execução do estado atual.
 		CalculateDeltaTime();
 		input.Update();
-		state->Update(dt);
-		state->Render();
+		stateStack.top()->Update(dt);
+		stateStack.top()->Render();
 		SDL_RenderPresent(renderer);
 		SDL_Delay(33);
 	}
+
+	// Limpando os recursos.
 	Resources::ClearImages();
 	Resources::ClearSounds();
 	Resources::ClearMusics();

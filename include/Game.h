@@ -7,30 +7,37 @@
 #include <string>
 #include <iostream>
 #include <stdbool.h>
+#include <stack>
 
 #ifndef GAME
 	#define GAME
 		
 	class Game {
 	private:
-		Game(std::string, int, int);
-
-		static Game* instance;
-		SDL_Window* window;
-		SDL_Renderer* renderer;
-		State* state;
-
 		Uint32 frameStart;
 		float dt;
+
+		static Game* instance;
+		
+		State* storedState;
+		SDL_Window* window;
+		SDL_Renderer* renderer;
+		std::stack<std::unique_ptr<State>> stateStack;
+
 		void CalculateDeltaTime();
 
 	public:
+		Game(std::string, int, int);
 		~Game();
 
-		void Run();
-		SDL_Renderer* GetRenderer();
-		State& GetState();
 		static Game& GetInstance();
+		SDL_Renderer* GetRenderer();
+		State& GetCurrentState();
+
+		void Push(State*);
+
+		void Run();
+		
 		float GetDeltaTime();
 	};
 	
