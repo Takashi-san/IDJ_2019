@@ -39,12 +39,12 @@ void Collider::Render() {
 Collider::Collider(GameObject& associated, Vec2 scale, Vec2 offset) : Component(associated) {
 	this->scale = scale;
 	this->offset = offset;
+
+	box.w = associated.box.w * scale.x;
+	box.h = associated.box.h * scale.y;
 }
 
 void Collider::Update(float dt) {
-	box.w = associated.box.w * scale.x;
-	box.h = associated.box.h * scale.y;
-	
 	box.Centered(associated.box.Center());
 
 	box.x += offset.GetRotated(associated.angleDeg/0.0174533).x;
@@ -61,4 +61,7 @@ void Collider::SetOffset(Vec2 offset) {
 
 void Collider::SetScale(Vec2 scale) {
 	this->scale = scale;
+
+	box.w = associated.box.w * scale.x;
+	box.h = associated.box.h * scale.y;
 }

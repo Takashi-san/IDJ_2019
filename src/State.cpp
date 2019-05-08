@@ -89,22 +89,17 @@ void State::LoadAssets() {
 void State::Update(float dt) {
 	InputManager& input = InputManager::GetInstance();
 
-	Camera::Update(dt);
-
+	// verifica fechamento do jogo.
 	if (input.QuitRequested() || input.KeyPress(ESCAPE_KEY)) {
 		quitRequested = true;
 	}
-
-	if (input.KeyPress(SPACE_KEY)) {
-		Vec2 objPos = Vec2(200, 0);
-		objPos.Rotate(-M_PI + M_PI*(rand() % 1001)/500.0);
-		objPos = objPos + Vec2(input.GetMouseX(), input.GetMouseY());
-	}
 	
+	// update dos game object.
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
 		objectArray[i]->Update(dt);
 	}
 	
+	// deleta objetos que devem sumir.
 	for (std::vector<std::shared_ptr<GameObject>>::iterator i = objectArray.begin(); i < objectArray.end(); i++) {
 		if (i->get()->IsDead()) {
 			i = objectArray.erase(i);
@@ -112,6 +107,15 @@ void State::Update(float dt) {
 		}
 	}
 
+	// update dos colliders.
+	for (unsigned int i = 0; i < objectArray.size(); i++) {
+		Collider *coli = static_cast<Collider*>(objectArray[i]->GetComponent("Collider"));
+		if (coli != nullptr) {
+			coli->Update(dt);
+		}
+	}
+
+	// verifica colisão dos objetos.
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
 		Collider *coli = static_cast<Collider*>(objectArray[i]->GetComponent("Collider"));
 		if (coli != nullptr) {
@@ -126,6 +130,8 @@ void State::Update(float dt) {
 			}
 		}
 	}
+
+	Camera::Update(dt);
 }
 
 void State::Render() {
