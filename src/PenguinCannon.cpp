@@ -53,7 +53,7 @@ void PenguinCannon::Shoot() {
 	std::shared_ptr<GameObject> ptr;
 
 	GameObject *go = new GameObject();
-	weak_ptr = Game::GetInstance().GetState().AddObject(go);
+	weak_ptr = Game::GetInstance().GetCurrentState().AddObject(go);
 	ptr = weak_ptr.lock();
 
 	Bullet *bam = new Bullet(*ptr, angle, PCANNON_BULLET_SPEED, PCANNON_BULLET_DAMAGE, PCANNON_BULLET_RANGE, "assets/img/minionbullet2.png", 3, 0.04, false);

@@ -113,7 +113,7 @@ State& Game::GetCurrentState() {
 	return *(stateStack.top());
 }
 
-void Game::Puch(State* state) {
+void Game::Push(State* state) {
 	storedState = state;
 }
 
@@ -122,7 +122,7 @@ void Game::Run() {
 
 	// Carrega estado inicial.
 	if (storedState != nullptr) {
-		stateStack.push(*storedState);
+		stateStack.emplace(storedState);
 		stateStack.top()->Start();
 		storedState = nullptr;
 	} else {
@@ -142,7 +142,7 @@ void Game::Run() {
 			if (!stateStack.empty()) {
 				stateStack.top()->Pause();
 			}
-			stateStack.push(*storedState);
+			stateStack.emplace(storedState);
 			stateStack.top()->Start();
 			storedState = nullptr;
 		} else if (stateStack.empty()) {

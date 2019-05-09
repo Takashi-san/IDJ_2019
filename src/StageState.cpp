@@ -1,7 +1,7 @@
-#include "State.h"
+#include "StageState.h"
 
+#include "Sprite.h"
 #include "Sound.h"
-#include "TileSet.h"
 #include "TileMap.h"
 #include "Vec2.h"
 #include "InputManager.h"
@@ -13,11 +13,7 @@
 #include "Collision.h"
 #include "Collider.h"
 
-State::State() {
-	started = false;
-	quitRequested = false;
-	objectArray.clear();
-
+StageState::StageState() {
 	std::weak_ptr<GameObject> weak_ptr;
 	std::shared_ptr<GameObject> ptr;
 
@@ -36,8 +32,8 @@ State::State() {
 	GameObject *gomp = new GameObject();
 	weak_ptr = AddObject(gomp);
 	ptr = weak_ptr.lock();
-	TileSet *tlst = new TileSet(*ptr, 64, 64, "assets/img/tileset.png");
-	TileMap *tlmp = new TileMap(*ptr, "assets/map/tileMap.txt", tlst);
+	tileset = new TileSet(*ptr, 64, 64, "assets/img/tileset.png");
+	TileMap *tlmp = new TileMap(*ptr, "assets/map/tileMap.txt", tileset);
 	tlmp->SetParallax(1);
 	ptr->box.x = 0;
 	ptr->box.y = 0;
@@ -52,17 +48,6 @@ State::State() {
 	ptr->box.y = 300 - goali->box.h/2;
 	ptr->AddComponent(alien);
 
-	/*
-	// Minion
-	GameObject *gomini = new GameObject();
-	weak_ptr = AddObject(gomini);
-	ptr = weak_ptr.lock();
-	Minion *mini = new Minion(*ptr, GetObjectPtr(goali), 15);
-	ptr->box.x = 0;
-	ptr->box.y = 0;
-	ptr->AddComponent(mini);
-	*/
-
 	// PenguinBody
 	GameObject *gopen = new GameObject();
 	weak_ptr = AddObject(gopen);
@@ -74,19 +59,15 @@ State::State() {
 	Camera::Follow(ptr.get());
 
 	// BGM
-	music.Open("assets/audio/stageState.ogg");
-	music.Play(-1);
+	bgMusic.Open("assets/audio/stageState.ogg");
+	bgMusic.Play(-1);
 }
 
-State::~State() {
+StageState::~StageState() {
 	objectArray.clear();
 }
 
-void State::LoadAssets() {
-
-}
-
-void State::Update(float dt) {
+void StageState::Update(float dt) {
 	InputManager& input = InputManager::GetInstance();
 
 	// verifica fechamento do jogo.
@@ -94,18 +75,7 @@ void State::Update(float dt) {
 		quitRequested = true;
 	}
 	
-	// update dos game object.
-	for (unsigned int i = 0; i < objectArray.size(); i++) {
-		objectArray[i]->Update(dt);
-	}
-	
-	// deleta objetos que devem sumir.
-	for (std::vector<std::shared_ptr<GameObject>>::iterator i = objectArray.begin(); i < objectArray.end(); i++) {
-		if (i->get()->IsDead()) {
-			i = objectArray.erase(i);
-			i--;
-		}
-	}
+	UpdateArray(dt);
 
 	// update dos colliders.
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
@@ -134,47 +104,26 @@ void State::Update(float dt) {
 	Camera::Update(dt);
 }
 
-void State::Render() {
-	for (unsigned int i = 0; i < objectArray.size(); i++) {
-		objectArray[i]->Render();
-	}
+void StageState::Render() {
+	RenderArray();
 }
 
-bool State::QuitRequested() {
-	return quitRequested;
+void StageState::LoadAssets() {
+
 }
 
-void State::Start(){
+void StageState::Start(){
 	LoadAssets();
-	for (unsigned int i = 0; i < objectArray.size(); i++) {
-		objectArray[i]->Start();
-	}
+	
+	StartArray();
 
 	started = true;
 }
 
-std::weak_ptr<GameObject> State::AddObject(GameObject* go) {
-	std::shared_ptr<GameObject> s_ptr(go);
-	std::weak_ptr<GameObject> weak;
+void StageState::Pause() {
 
-	objectArray.emplace_back(s_ptr);
-	if (started) {
-		objectArray.back()->Start();
-	}
-
-	weak = objectArray.back();
-	return weak;
 }
 
-std::weak_ptr<GameObject> State::GetObjectPtr(GameObject* go) {
-	std::weak_ptr<GameObject> weak;
+void StageState::Resume() {
 
-	for (unsigned int i = 0; i < objectArray.size(); i++) {
-		if (objectArray[i].get() == go) {
-			weak = objectArray[i];
-			return weak;
-		}
-	}
-
-	return weak;
 }

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Vec2.h"
 #include "State.h"
+#include "Timer.h"
 
 #include <string>
 #include <iostream>

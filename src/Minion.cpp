@@ -47,7 +47,7 @@ void Minion::Update(float dt) {
 		associated.RequestDelete();
 		
 		GameObject *go = new GameObject();
-		std::weak_ptr<GameObject> weak_ptr = Game::GetInstance().GetState().AddObject(go);
+		std::weak_ptr<GameObject> weak_ptr = Game::GetInstance().GetCurrentState().AddObject(go);
 		std::shared_ptr<GameObject> ptr = weak_ptr.lock();
 		
 		Sprite* sp = new Sprite(*ptr, "assets/img/miniondeath.png", 4, 0.1, 4*0.1);
@@ -65,7 +65,7 @@ void Minion::Update(float dt) {
 		associated.RequestDelete();
 
 		GameObject *go = new GameObject();
-		std::weak_ptr<GameObject> weak_ptr = Game::GetInstance().GetState().AddObject(go);
+		std::weak_ptr<GameObject> weak_ptr = Game::GetInstance().GetCurrentState().AddObject(go);
 		std::shared_ptr<GameObject> ptr = weak_ptr.lock();
 		
 		Sprite* sp = new Sprite(*ptr, "assets/img/miniondeath.png", 4, 0.1, 4*0.1);
@@ -92,7 +92,7 @@ void Minion::Shoot(Vec2 pos) {
 	std::shared_ptr<GameObject> ptr;
 
 	GameObject *go = new GameObject();
-	weak_ptr = Game::GetInstance().GetState().AddObject(go);
+	weak_ptr = Game::GetInstance().GetCurrentState().AddObject(go);
 	ptr = weak_ptr.lock();
 
 	float angle = atan2(pos.y - (associated.box.y + associated.box.h/2), pos.x - (associated.box.x + associated.box.w/2));

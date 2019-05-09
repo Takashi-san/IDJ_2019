@@ -35,11 +35,11 @@ void Alien::Start() {
 		offset = (360/nMinions)*i;
 
 		GameObject *go = new GameObject();
-		weak_ptr = Game::GetInstance().GetState().AddObject(go);
+		weak_ptr = Game::GetInstance().GetCurrentState().AddObject(go);
 		minionArray.emplace_back(weak_ptr);
 		ptr = weak_ptr.lock();
 		
-		Minion *mini = new Minion(*ptr, Game::GetInstance().GetState().GetObjectPtr(&associated), offset);
+		Minion *mini = new Minion(*ptr, Game::GetInstance().GetCurrentState().GetObjectPtr(&associated), offset);
 		ptr->box.x = 0;
 		ptr->box.y = 0;
 		ptr->AddComponent(mini);
@@ -118,7 +118,7 @@ void Alien::Update(float dt) {
 		associated.RequestDelete();
 
 		GameObject *go = new GameObject();
-		std::weak_ptr<GameObject> weak_ptr = Game::GetInstance().GetState().AddObject(go);
+		std::weak_ptr<GameObject> weak_ptr = Game::GetInstance().GetCurrentState().AddObject(go);
 		std::shared_ptr<GameObject> ptr = weak_ptr.lock();
 		
 		Sprite* sp = new Sprite(*ptr, "assets/img/aliendeath.png", 4, 0.1, 4*0.1);

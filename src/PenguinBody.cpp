@@ -32,11 +32,11 @@ PenguinBody::~PenguinBody() {
 
 void PenguinBody::Start() {
 	GameObject *go = new GameObject();
-	std::weak_ptr<GameObject> weak_ptr = Game::GetInstance().GetState().AddObject(go);
+	std::weak_ptr<GameObject> weak_ptr = Game::GetInstance().GetCurrentState().AddObject(go);
 	std::shared_ptr<GameObject> ptr = weak_ptr.lock();
 	pcannon = weak_ptr;
 
-	PenguinCannon* pcan = new PenguinCannon(*ptr, Game::GetInstance().GetState().GetObjectPtr(&associated));
+	PenguinCannon* pcan = new PenguinCannon(*ptr, Game::GetInstance().GetCurrentState().GetObjectPtr(&associated));
 	ptr->box.x = associated.box.x;
 	ptr->box.y = associated.box.y;
 	ptr->AddComponent(pcan);
@@ -81,7 +81,7 @@ void PenguinBody::Update(float dt) {
 		}
 
 		GameObject *go = new GameObject();
-		std::weak_ptr<GameObject> weak_ptr = Game::GetInstance().GetState().AddObject(go);
+		std::weak_ptr<GameObject> weak_ptr = Game::GetInstance().GetCurrentState().AddObject(go);
 		std::shared_ptr<GameObject> ptr = weak_ptr.lock();
 		
 		Sprite* sp = new Sprite(*ptr, "assets/img/penguindeath.png", 5, 0.1, 5*0.1);

@@ -1,7 +1,8 @@
 #define INCLUDE_SDL
 #include "SDL_include.h"
-#include "Sprite.h"
 #include "Music.h"
+#include "State.h"
+#include "TileSet.h"
 
 #include <string>
 #include <iostream>
@@ -11,30 +12,25 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#ifndef STATE
-	#define STATE
+#ifndef STAGESTATE
+	#define STAGESTATE
 
-	class State {
+	class StageState : public State{
 	private:
-		Music music;
-		bool quitRequested;
-		std::vector<std::shared_ptr<GameObject>> objectArray;
-		bool started;
-
-		void Input();
-
+		Music bgMusic;
+		TileSet* tileset;
+		
 	public:
-		State();
-		~State();
+		StageState();
+		~StageState();
 
-		bool QuitRequested();
 		void LoadAssets();
-		void Update(float);
+		void Update(float dt);
 		void Render();
 
 		void Start();
-		std::weak_ptr<GameObject> AddObject(GameObject*);
-		std::weak_ptr<GameObject> GetObjectPtr(GameObject*);
+		void Pause();
+		void Resume();
 	};
 
 #endif
