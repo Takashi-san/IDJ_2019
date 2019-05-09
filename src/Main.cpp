@@ -1,9 +1,9 @@
 #include "Game.h"
-#include "StageState.h"
+#include "TitleState.h"
 
 int main(int argc, char** argv) {
 	Game& game = Game::GetInstance();
-	StageState* init = new StageState();
+	TitleState* init = new TitleState();
 
 	game.Push(init);
 	game.Run();

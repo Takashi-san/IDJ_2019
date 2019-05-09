@@ -72,7 +72,7 @@ void StageState::Update(float dt) {
 
 	// verifica fechamento do jogo.
 	if (input.QuitRequested() || input.KeyPress(ESCAPE_KEY)) {
-		quitRequested = true;
+		popRequested = true;
 	}
 	
 	UpdateArray(dt);
