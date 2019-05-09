@@ -134,6 +134,7 @@ void Game::Run() {
 		// Gerenciando a pilha de estados.
 		if (stateStack.top()->PopRequested()) {
 			stateStack.pop();
+			Resources::ClearImages();	// Liberando recursos não usados.
 			if (!stateStack.empty()) {
 				stateStack.top()->Resume();
 			}
@@ -159,6 +160,9 @@ void Game::Run() {
 	}
 
 	// Limpando os recursos.
+	while (!stateStack.empty()) {
+		stateStack.pop();
+	}
 	Resources::ClearImages();
 	Resources::ClearSounds();
 	Resources::ClearMusics();

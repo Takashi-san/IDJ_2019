@@ -56,7 +56,7 @@ void Sprite::Open(std::string file) {
 	}
 
 	// descobre dimensoes da imagem.
-	SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
+	SDL_QueryTexture(texture.get(), nullptr, nullptr, &width, &height);
 
 	// clip da imagem.
 	SetClip(0, 0, width/frameCount, height);
@@ -86,7 +86,7 @@ void Sprite::Render(int x, int y) {
 	dst.w = clipRect.w*scale.x;
 	dst.h = clipRect.h*scale.y;
 	
-	SDL_RenderCopyEx(instance.GetRenderer(), texture, &clipRect, &dst, associated.angleDeg, nullptr, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(instance.GetRenderer(), texture.get(), &clipRect, &dst, associated.angleDeg, nullptr, SDL_FLIP_NONE);
 }
 
 int Sprite::GetWidth() {
