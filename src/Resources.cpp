@@ -2,8 +2,8 @@
 #include "Game.h"
 
 std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> 	Resources::imageTable;
-std::unordered_map<std::string, Mix_Music*> 	Resources::musicTable;
-std::unordered_map<std::string, Mix_Chunk*> 	Resources::soundTable;
+std::unordered_map<std::string, std::shared_ptr<Mix_Music>> 	Resources::musicTable;
+std::unordered_map<std::string, std::shared_ptr<Mix_Chunk>> 	Resources::soundTable;
 
 std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file) {
 	Game& instance = Game::GetInstance();
@@ -37,54 +37,64 @@ void Resources::ClearImages() {
 	}
 }
 
-Mix_Music* Resources::GetMusic(std::string file) {
+std::shared_ptr<Mix_Music> Resources::GetMusic(std::string file) {
 	Mix_Music* music;
-	std::unordered_map<std::string, Mix_Music*>::iterator it = musicTable.find(file.c_str());
+	std::unordered_map<std::string, std::shared_ptr<Mix_Music>>::iterator it = musicTable.find(file.c_str());
 
 	if (it != musicTable.end()){
 		return it->second;
 	}
 
 	music = Mix_LoadMUS(file.c_str());
-	musicTable[file.c_str()] = music;
-
-	return music;
+	if (music != nullptr) {
+		std::shared_ptr<Mix_Music> s_music(music, [](Mix_Music* music){ Mix_FreeMusic(music); });
+		musicTable[file.c_str()] = s_music;
+		return musicTable[file.c_str()];
+	} else {
+		return nullptr;
+	}
 }
 
 void Resources::ClearMusics() {
-	std::unordered_map<std::string, Mix_Music*>::iterator it;
+	std::unordered_map<std::string, std::shared_ptr<Mix_Music>>::iterator it;
 
-	for(it = musicTable.begin(); it != musicTable.end(); it++) {
-		if (it->second != nullptr) {
-			Mix_FreeMusic(it->second);
+	it = musicTable.begin();
+	while (it != musicTable.end()) {
+		if (it->second.unique()) {
+			it = musicTable.erase(it);
+		} else {
+			it++;
 		}
 	}
-
-	musicTable.clear();
 }
 
-Mix_Chunk* Resources::GetSound(std::string file) {
+std::shared_ptr<Mix_Chunk> Resources::GetSound(std::string file) {
 	Mix_Chunk* sound;
-	std::unordered_map<std::string, Mix_Chunk*>::iterator it = soundTable.find(file.c_str());
+	std::unordered_map<std::string, std::shared_ptr<Mix_Chunk>>::iterator it = soundTable.find(file.c_str());
 
 	if (it != soundTable.end()){
 		return it->second;
 	}
 
 	sound = Mix_LoadWAV(file.c_str());
-	soundTable[file.c_str()] = sound;
-
-	return sound;
+	if (sound != nullptr) {
+		std::shared_ptr<Mix_Chunk> s_sound(sound, [](Mix_Chunk* sound){ Mix_FreeChunk(sound); });
+		soundTable[file.c_str()] = s_sound;
+		return soundTable[file.c_str()];
+	} else {
+		return nullptr;
+	}
 }
 
 void Resources::ClearSounds() {
-	std::unordered_map<std::string, Mix_Chunk*>::iterator it;
+	std::unordered_map<std::string, std::shared_ptr<Mix_Chunk>>::iterator it;
 
-	for(it = soundTable.begin(); it != soundTable.end(); it++) {
-		if (it->second != nullptr) {
-			Mix_FreeChunk(it->second);
+	it = soundTable.begin();
+	while (it != soundTable.end()) {
+		if (it->second.unique()) {
+			it = soundTable.erase(it);
+		} else {
+			it++;
 		}
 	}
-
-	soundTable.clear();
 }

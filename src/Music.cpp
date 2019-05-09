@@ -13,7 +13,7 @@ Music::Music(std::string file) {
 
 void Music::Play(int times = -1) {
 	if (music != nullptr){
-		Mix_PlayMusic(music, times);
+		Mix_PlayMusic(music.get(), times);
 	} else {
 		// Nenhuma musica carregada.
 		std::cout << "Nenhuma musica carregada para tocar.\n";

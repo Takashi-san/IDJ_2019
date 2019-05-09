@@ -5,13 +5,14 @@
 #include <string>
 #include <iostream>
 #include <stdbool.h>
+#include <memory>
 
 #ifndef MUSIC
 	#define MUSIC
 
 	class Music {
 	private:
-		Mix_Music* music;
+		std::shared_ptr<Mix_Music> music;
 
 	public:
 		Music();
