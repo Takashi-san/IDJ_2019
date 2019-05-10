@@ -4,6 +4,7 @@
 std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> 	Resources::imageTable;
 std::unordered_map<std::string, std::shared_ptr<Mix_Music>> 	Resources::musicTable;
 std::unordered_map<std::string, std::shared_ptr<Mix_Chunk>> 	Resources::soundTable;
+std::unordered_map<std::string, std::shared_ptr<TTF_Font>> 		Resources::fontTable;
 
 std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file) {
 	Game& instance = Game::GetInstance();
@@ -93,6 +94,38 @@ void Resources::ClearSounds() {
 	while (it != soundTable.end()) {
 		if (it->second.unique()) {
 			it = soundTable.erase(it);
+		} else {
+			it++;
+		}
+	}
+}
+
+std::shared_ptr<TTF_Font> Resources::GetFont(std::string file, int fontSize) {
+	TTF_Font* font;
+	std::string key = file + std::to_string(fontSize);
+	std::unordered_map<std::string, std::shared_ptr<TTF_Font>>::iterator it = fontTable.find(key.c_str());
+
+	if (it != fontTable.end()){
+		return it->second;
+	}
+
+	font = TTF_OpenFont (file.c_str(), fontSize);
+	if (font != nullptr) {
+		std::shared_ptr<TTF_Font> s_font(font, [](TTF_Font* font){ TTF_CloseFont(font); });
+		fontTable[key.c_str()] = s_font;
+		return fontTable[key.c_str()];
+	} else {
+		return nullptr;
+	}
+}
+
+void Resources::ClearFonts() {
+	std::unordered_map<std::string, std::shared_ptr<TTF_Font>>::iterator it;
+
+	it = fontTable.begin();
+	while (it != fontTable.end()) {
+		if (it->second.unique()) {
+			it = fontTable.erase(it);
 		} else {
 			it++;
 		}

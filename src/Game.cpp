@@ -54,6 +54,14 @@ Game::Game(std::string title, int width, int height) {
 	}
 	Mix_AllocateChannels(32);
 
+	// Inicia a SDL_ttf.
+	i = TTF_Init();
+	if (i != 0) {
+		// falhou na inicializacao.
+		std::cout << "Erro inicialização TTF_Init: " << SDL_GetError() << "\n";
+		exit(EXIT_FAILURE);
+	}
+
 	// Iniciar janela.
 	window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
 	if (window == nullptr){
@@ -84,6 +92,7 @@ Game::~Game() {
 	Resources::ClearImages();
 	Resources::ClearSounds();
 	Resources::ClearMusics();
+	Resources::ClearFonts();
 
 	// Precisa desfazer na ordem inversa aa inicializacao.
 	SDL_DestroyRenderer(renderer);
@@ -139,6 +148,7 @@ void Game::Run() {
 			Resources::ClearImages();
 			Resources::ClearSounds();
 			Resources::ClearMusics();
+			Resources::ClearFonts();
 			
 			if (!stateStack.empty()) {
 				stateStack.top()->Resume();
@@ -171,6 +181,7 @@ void Game::Run() {
 	Resources::ClearImages();
 	Resources::ClearSounds();
 	Resources::ClearMusics();
+	Resources::ClearFonts();
 }
 
 void Game::CalculateDeltaTime() {

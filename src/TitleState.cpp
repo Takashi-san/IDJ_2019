@@ -4,6 +4,8 @@
 #include "CameraFollower.h"
 #include "InputManager.h"
 #include "Camera.h"
+#include "Text.h"
+#include "Timer.h"
 
 TitleState::TitleState() {
 	std::weak_ptr<GameObject> weak_ptr;
@@ -19,6 +21,14 @@ TitleState::TitleState() {
 	CameraFollower *cmfl = new CameraFollower(*ptr);
 	ptr->AddComponent(sp);
 	ptr->AddComponent(cmfl);
+
+	// Title img.
+	GameObject *tgo = new GameObject();
+	weak_ptr = AddObject(tgo);
+	ptr = weak_ptr.lock();
+	Text* tx = new Text(*ptr, "assets/font/Call me maybe.ttf", 50, Text::BLENDED, "Press Space To Start!", {255, 0, 0, 255}, 0.5, {0, 0, 255, 255});
+	ptr->box.Centered({512, 450});
+	ptr->AddComponent(tx);
 }
 
 TitleState::~TitleState() {
@@ -38,6 +48,8 @@ void TitleState::Update(float dt) {
 		StageState *stage = new StageState();
 		Game::GetInstance().Push(stage);
 	}
+
+	UpdateArray(dt);
 }
 
 void TitleState::Render() {
