@@ -15,7 +15,6 @@ void Music::Play(int times = -1) {
 	if (music != nullptr){
 		Mix_PlayMusic(music.get(), times);
 	} else {
-		// Nenhuma musica carregada.
 		std::cout << "Nenhuma musica carregada para tocar.\n";
 	}
 }
@@ -26,13 +25,12 @@ void Music::Stop(int msToStop = 1500) {
 
 void Music::Open(std::string file) {
 	music = Resources::GetMusic(file.c_str());
-	//music = Mix_LoadMUS(file.c_str());
 	if (music == nullptr) {
-		// Falha em carregar a musica.
 		std::cout << "Falha em carregar musica: " << file.c_str() << "\n";
 		std::cout << "SDL_GetError: " << SDL_GetError() << "\n";
 		//exit(EXIT_FAILURE);
 	}
+	std::cout << "aberto musica: " << file << "\n";
 }
 
 bool Music::IsOpen() {
@@ -45,5 +43,4 @@ bool Music::IsOpen() {
 
 Music::~Music() {
 	Stop(0);
-	//Mix_FreeMusic(music);
 }

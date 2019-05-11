@@ -12,6 +12,9 @@
 #include "PenguinBody.h"
 #include "Collision.h"
 #include "Collider.h"
+#include "Data.h"
+#include "EndState.h"
+#include "Game.h"
 
 StageState::StageState() {
 	std::weak_ptr<GameObject> weak_ptr;
@@ -73,6 +76,19 @@ void StageState::Update(float dt) {
 	// verifica fechamento do jogo.
 	if (input.QuitRequested() || input.KeyPress(ESCAPE_KEY)) {
 		popRequested = true;
+	}
+
+	// verifica condições de vitoria.
+	if (PenguinBody::player == nullptr) {
+		popRequested = true;
+		Data::playerVictory = false;
+		EndState *stage = new EndState();
+		Game::GetInstance().Push(stage);
+	} else if (Alien::alienCount == 0) {
+		popRequested = true;
+		Data::playerVictory = true;
+		EndState *stage = new EndState();
+		Game::GetInstance().Push(stage);
 	}
 	
 	UpdateArray(dt);

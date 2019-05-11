@@ -22,7 +22,7 @@ TitleState::TitleState() {
 	ptr->AddComponent(sp);
 	ptr->AddComponent(cmfl);
 
-	// Title img.
+	// Title txt.
 	GameObject *tgo = new GameObject();
 	weak_ptr = AddObject(tgo);
 	ptr = weak_ptr.lock();
