@@ -150,6 +150,14 @@ void StageState::Update(float dt) {
 	}
 
 	Camera::Update(dt);
+	// update dos CameraFollower.
+	for (unsigned int i = 0; i < objectArray.size(); i++) {
+		Collider *coli = static_cast<Collider*>(objectArray[i]->GetComponent("CameraFollower"));
+		if (coli != nullptr) {
+			coli->Update(dt);
+			break;
+		}
+	}
 }
 
 void StageState::Render() {
