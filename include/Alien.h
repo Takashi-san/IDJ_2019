@@ -16,14 +16,14 @@
 	
 	#define ALIEN_VEL_ANG -0.2
 	#define ALIEN_SPEED 250
-	#define ALIEN_REST_BASE 0.3
-	#define ALIEN_REST_RAND 0.5
+	#define ALIEN_REST_BASE 0.5
 
 	class Alien : public Component{
 	private:
 		enum AlienState { MOVING, RESTING };
 		AlienState state;
 		Timer restTimer;
+		float restOffset;
 		Vec2 destination;
 
 		Vec2 speed;
@@ -34,7 +34,7 @@
 	public:
 		static int alienCount;
 
-		Alien(GameObject&, int);
+		Alien(GameObject&, int, float = 0);
 		~Alien();
 
 		void Start();

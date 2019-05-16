@@ -30,7 +30,6 @@ void Music::Open(std::string file) {
 		std::cout << "SDL_GetError: " << SDL_GetError() << "\n";
 		//exit(EXIT_FAILURE);
 	}
-	std::cout << "aberto musica: " << file << "\n";
 }
 
 bool Music::IsOpen() {

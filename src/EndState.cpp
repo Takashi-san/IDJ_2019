@@ -24,7 +24,6 @@ EndState::EndState() {
 
 		// BGM
 		bgMusic.Open("assets/audio/endStateWin.ogg");
-		bgMusic.Play(-1);
 	
 		// End txt.
 		GameObject *tgo = new GameObject();
@@ -53,8 +52,7 @@ EndState::EndState() {
 		ptr->AddComponent(cmfl);
 
 		// BGM
-		bgMusic.Open("assets/audio/stageState.ogg");
-		bgMusic.Play(-1);
+		bgMusic.Open("assets/audio/endStateLose.ogg");
 	
 		// End txt.
 		GameObject *tgo = new GameObject();
@@ -106,6 +104,8 @@ void EndState::Start(){
 	LoadAssets();
 	
 	StartArray();
+
+	bgMusic.Play(-1);
 
 	started = true;
 }

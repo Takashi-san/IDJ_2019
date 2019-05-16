@@ -43,13 +43,45 @@ StageState::StageState() {
 	ptr->AddComponent(tlmp);
 
 	// Alien
-	GameObject *goali = new GameObject();
-	weak_ptr = AddObject(goali);
+	GameObject *goali1 = new GameObject();
+	weak_ptr = AddObject(goali1);
 	ptr = weak_ptr.lock();
-	Alien *alien = new Alien(*ptr, 5);
-	ptr->box.x = 512 - goali->box.w/2;
-	ptr->box.y = 300 - goali->box.h/2;
-	ptr->AddComponent(alien);
+	Alien *alien1 = new Alien(*ptr, 5, 0.5);
+	ptr->box.x = 512 - goali1->box.w/2;
+	ptr->box.y = 300 - goali1->box.h/2;
+	ptr->AddComponent(alien1);
+
+	GameObject *goali2 = new GameObject();
+	weak_ptr = AddObject(goali2);
+	ptr = weak_ptr.lock();
+	Alien *alien2 = new Alien(*ptr, 5, 1);
+	ptr->box.x = 100 - goali2->box.w/2;
+	ptr->box.y = 550 - goali2->box.h/2;
+	ptr->AddComponent(alien2);
+
+	GameObject *goali3 = new GameObject();
+	weak_ptr = AddObject(goali3);
+	ptr = weak_ptr.lock();
+	Alien *alien3 = new Alien(*ptr, 5, 1.5);
+	ptr->box.x = 1000 - goali3->box.w/2;
+	ptr->box.y = 450 - goali3->box.h/2;
+	ptr->AddComponent(alien3);
+
+	GameObject *goali4 = new GameObject();
+	weak_ptr = AddObject(goali4);
+	ptr = weak_ptr.lock();
+	Alien *alien4 = new Alien(*ptr, 5, 3.5);
+	ptr->box.x = 700 - goali4->box.w/2;
+	ptr->box.y = 150 - goali4->box.h/2;
+	ptr->AddComponent(alien4);
+
+	GameObject *goali5 = new GameObject();
+	weak_ptr = AddObject(goali5);
+	ptr = weak_ptr.lock();
+	Alien *alien5 = new Alien(*ptr, 5, 4.5);
+	ptr->box.x = 212 - goali5->box.w/2;
+	ptr->box.y = 200 - goali5->box.h/2;
+	ptr->AddComponent(alien5);
 
 	// PenguinBody
 	GameObject *gopen = new GameObject();

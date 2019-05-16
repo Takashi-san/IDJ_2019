@@ -12,11 +12,12 @@
 
 int Alien::alienCount;
 
-Alien::Alien(GameObject& associated, int nMinions) : Component(associated) {
+Alien::Alien(GameObject& associated, int nMinions, float restOffset) : Component(associated) {
 	hp = 70;
 	speed.x = 0;
 	speed.y = 0;
 	this->nMinions = nMinions;
+	this->restOffset = restOffset;
 	Sprite *sp = new Sprite(associated, "assets/img/alien.png");
 	Collider *cl = new Collider(associated, {0.85, 0.85});
 	associated.AddComponent(sp);
@@ -100,7 +101,7 @@ void Alien::Update(float dt) {
 
 			case RESTING:
 				restTimer.Update(dt);
-				if (restTimer.Get() > ALIEN_REST_BASE + float(std::rand()/float(RAND_MAX/ALIEN_REST_RAND))) {
+				if (restTimer.Get() > ALIEN_REST_BASE + restOffset) {
 					destination = PenguinBody::player->GetPos();
 					if ((destination - associated.box.Center()).Modulo() != 0) {
 						speed = ((destination - associated.box.Center())/((destination - associated.box.Center()).Modulo())) * ALIEN_SPEED;
