@@ -60,7 +60,7 @@ void Alien::Update(float dt) {
 	associated.angleDeg += (ALIEN_VEL_ANG/0.0174533)*dt;
 
 	if (PenguinBody::player != nullptr) {
-		int j;
+		int j = 0;
 		switch (state) {
 			case MOVING:
 				// Se chegou no destino.
